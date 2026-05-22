@@ -3,336 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lavendermony - Premium Liquid Glass Music (iOS 26 Ultimate Edition)</title>
+    <title>Lavendermony - Premium Liquid Glass Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    
-    <style>
-        /* --- BIẾN CSS & CÀI ĐẶT CƠ BẢN (NÂNG CẤP CHUYÊN SÂU CHẾ ĐỘ THÍCH ỨNG) --- */
-        :root {
-            --bg-1: #f0f0f5; 
-            --bg-2: #e6e6fa;
-            --bg-3: #d8e2eb;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            
-            /* Cấp độ Blur cực sâu kiểu iOS 26 */
-            --glass-bg: rgba(255, 255, 255, 0.45); 
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
-            --glass-blur: blur(30px) saturate(200%);
-            
-            --primary-color: #a87add; 
-            --hover-color: #8c5bc2;
-            --ambient-glow: rgba(168, 122, 221, 0.35);
-            
-            --transition-premium: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-fast: all 0.2s ease;
-        }
-
-        body.dark-mode {
-            --bg-1: #0a0a0c;
-            --bg-2: #121216;
-            --bg-3: #1a1a24;
-            --text-primary: #f5f5f7;
-            --text-secondary: #92929c;
-            
-            --glass-bg: rgba(20, 20, 25, 0.55); 
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif; }
-        body { color: var(--text-primary); overflow: hidden; transition: background 0.8s ease, color 0.5s ease; position: relative; height: 100vh; background-color: var(--bg-1); }
-
-        /* --- BACKGROUND AURORA ĐỘNG THÍCH ỨNG (AMBIENT GLOW SYSTEM) --- */
-        .animated-background {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
-            background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
-            transition: var(--transition-premium);
-        }
-
-        .aurora-blob {
-            position: fixed; width: 600px; height: 600px; border-radius: 50%;
-            filter: blur(140px); opacity: 0.45; z-index: -1; pointer-events: none;
-            mix-blend-mode: plus-lighter; animation: floatBlob 20s infinite alternate ease-in-out;
-            transition: background 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform; transform: translateZ(0);
-        }
-        body.dark-mode .aurora-blob { opacity: 0.25; }
-        .blob-1 { background: var(--primary-color); top: -15%; left: -10%; animation-duration: 18s; }
-        .blob-2 { background: #007aff; bottom: -10%; right: -5%; animation-duration: 22s; animation-delay: -4s; }
-        .blob-3 { background: #ff2d55; top: 35%; left: 35%; animation-duration: 26s; animation-delay: -8s; }
-
-        @keyframes floatBlob {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(80px, -60px) scale(1.2) rotate(90deg); }
-            100% { transform: translate(-50px, 70px) scale(0.9) rotate(180deg); }
-        }
-
-        /* --- PHÂN TẦNG KÍNH VÀ HIỆU ỨNG MOTION LAYER --- */
-        .glass {
-            background: var(--glass-bg); 
-            backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border); 
-            box-shadow: var(--glass-shadow);
-            transition: var(--transition-premium);
-        }
-        .hidden { display: none !important; }
-        .view-section { display: none; opacity: 0; transform: translateY(15px); transition: var(--transition-premium); }
-        .view-section.active-view { display: block; opacity: 1; transform: translateY(0); }
-
-        .icon-btn { background: transparent; border: none; color: var(--text-secondary); font-size: 22px; cursor: pointer; transition: var(--transition-premium); width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .icon-btn:hover { color: var(--primary-color); background: rgba(168, 122, 221, 0.1); transform: scale(1.08) translateY(-2px); }
-
-        /* --- BỐ CỤC CHÍNH (SIDEBAR & MAIN CONTENT) --- */
-        .app-container { display: flex; height: calc(100vh - 95px); position: relative; }
-        
-        .sidebar { 
-            width: 280px; height: 100%; padding: 28px; display: flex; flex-direction: column; 
-            border-right: 1px solid var(--glass-border); z-index: 10;
-        }
-        .logo { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 800; color: var(--primary-color); margin-bottom: 35px; letter-spacing: -0.5px; text-shadow: 0 4px 12px var(--ambient-glow); }
-        
-        .menu a, .playlists-list a { display: flex; align-items: center; gap: 14px; padding: 14px 18px; color: var(--text-secondary); text-decoration: none; font-weight: 600; border-radius: 16px; transition: var(--transition-premium); margin-bottom: 6px; position: relative;}
-        .menu a:hover, .menu a.active, .playlists-list a:hover { background: rgba(168, 122, 221, 0.12); color: var(--primary-color); transform: translateX(4px); }
-        .menu a.active::after {
-            content: ''; position: absolute; left: 6px; top: 30%; width: 4px; height: 40%; background: var(--primary-color); border-radius: 4px; box-shadow: 0 0 10px var(--primary-color);
-        }
-        
-        .playlists { margin-top: 25px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
-        .playlists::-webkit-scrollbar { width: 0; }
-        .playlists h3 { font-size: 11px; color: var(--text-secondary); letter-spacing: 1.5px; margin-bottom: 15px; font-weight: 700; text-transform: uppercase; opacity: 0.8;}
-        .playlists-list { max-height: 200px; overflow-y: auto; }
-        .playlists-list::-webkit-scrollbar { width: 0; }
-
-        .add-playlist { margin-top: auto; width: 100%; padding: 14px; border: 1.5px dashed var(--glass-border); background: transparent; color: var(--text-primary); border-radius: 16px; cursor: pointer; transition: var(--transition-premium); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;}
-        .add-playlist:hover { border-color: var(--primary-color); color: var(--primary-color); background: rgba(168, 122, 221, 0.05); transform: translateY(-2px); }
-
-        /* --- MAIN CONTENT & KHÔNG GIAN TRẢI NGHIỆM --- */
-        .main-content { flex: 1; overflow-y: auto; padding: 30px 45px; scroll-behavior: smooth; position: relative;}
-        .main-content::-webkit-scrollbar { width: 6px; }
-        .main-content::-webkit-scrollbar-thumb { background: rgba(150,150,150,0.15); border-radius: 10px; }
-        
-        .glass-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 35px; position: sticky; top: -30px; z-index: 50; padding: 15px 0; backdrop-filter: blur(5px); }
-        .search-bar { display: flex; align-items: center; padding: 12px 24px; border-radius: 24px; width: 420px; transition: var(--transition-premium); }
-        .search-bar:focus-within { box-shadow: 0 0 0 2px var(--primary-color), 0 8px 30px rgba(0,0,0,0.05); background: rgba(255,255,255,0.85); transform: scale(1.02); }
-        body.dark-mode .search-bar:focus-within { background: rgba(25,25,30,0.85); }
-        .search-bar input { background: transparent; border: none; outline: none; color: var(--text-primary); margin-left: 12px; width: 100%; font-size: 15px; font-weight: 500;}
-        
-        .header-actions { display: flex; gap: 14px; align-items: center; }
-        .login-btn { padding: 12px 26px; border-radius: 24px; color: var(--text-primary); font-weight: 700; cursor: pointer; transition: var(--transition-premium); background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 8px; }
-        .login-btn:hover { background: var(--primary-color); color: white; border-color: transparent; transform: translateY(-3px); box-shadow: 0 10px 25px var(--ambient-glow); }
-        .user-profile img { width: 44px; height: 44px; border-radius: 50%; cursor: pointer; border: 2px solid var(--primary-color); transition: var(--transition-premium); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .user-profile img:hover { transform: scale(1.1) rotate(5deg); }
-
-        /* HERO BANNER & KÊNH TRẢI NGHIỆM */
-        .hero-banner { padding: 55px; border-radius: 28px; margin-bottom: 40px; background: linear-gradient(135deg, rgba(168,122,221,0.35), rgba(168,122,221,0.02)); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); box-shadow: inset 0 0 30px rgba(255,255,255,0.1); }
-        .play-btn-hero { margin-top: 22px; padding: 14px 38px; background: var(--primary-color); color: white; border: none; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 12px 28px var(--ambient-glow); transition: var(--transition-premium); display: flex; align-items: center; gap: 8px; }
-        .play-btn-hero:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 15px 35px var(--ambient-glow); }
-        .section-title { margin: 30px 0 20px 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; justify-content: space-between;}
-
-        /* --- GRID CARD NHẠC NÂNG CẤP CHUYÊN NGHIỆP --- */
-        .grid-songs { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 28px; padding-bottom: 20px;}
-        .song-card { padding: 16px; border-radius: 24px; cursor: pointer; transition: var(--transition-premium); position: relative; overflow: hidden; border: 1px solid transparent; background: rgba(255,255,255,0.2); }
-        body.dark-mode .song-card { background: rgba(255,255,255,0.02); }
-        .song-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--glass-border); background: var(--glass-bg); }
-        
-        .song-img { width: 100%; aspect-ratio: 1; border-radius: 18px; margin-bottom: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); transition: var(--transition-premium); background-size: cover; background-position: center; position: relative;}
-        .song-card:hover .song-img { transform: scale(1.04); box-shadow: 0 12px 28px rgba(0,0,0,0.15); }
-        .song-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .song-card p { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
-        
-        .card-play-overlay {
-            position: absolute; right: 12px; bottom: 12px; width: 46px; height: 46px;
-            background: var(--primary-color); color: white; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 24px;
-            opacity: 0; transform: translateY(15px) scale(0.8); transition: var(--transition-premium);
-            box-shadow: 0 8px 20px var(--ambient-glow); z-index: 5;
-        }
-        .song-card:hover .card-play-overlay { opacity: 1; transform: translateY(0) scale(1); }
-        .card-play-overlay:hover { transform: scale(1.1) !important; background: var(--hover-color); }
-        
-        .card-actions-btn { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.4); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: var(--transition-premium); z-index: 6; border: none; cursor: pointer; }
-        .song-card:hover .card-actions-btn { opacity: 1; }
-        .card-actions-btn:hover { background: var(--primary-color); transform: scale(1.1); }
-
-        /* --- MENU THAO TÁC CARD NHẠC (CONTEXT MENU) --- */
-        .context-menu { position: fixed; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; box-shadow: var(--glass-shadow); padding: 8px; z-index: 9999; width: 200px; transform: scale(0.95); opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
-        .context-menu.show { transform: scale(1); opacity: 1; pointer-events: auto; }
-        .context-menu-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: var(--text-primary); cursor: pointer; border-radius: 10px; font-size: 14px; font-weight: 500; transition: var(--transition-fast); }
-        .context-menu-item:hover { background: rgba(168, 122, 221, 0.15); color: var(--primary-color); }
-
-        /* SKELETON LOADING SHIMMER EFFECT */
-        .skeleton-card { padding: 16px; border-radius: 24px; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; flex-direction: column; }
-        .skeleton-thumb { width: 100%; aspect-ratio: 1; border-radius: 18px; background: linear-gradient(90deg, rgba(150,150,150,0.08) 25%, rgba(150,150,150,0.18) 50%, rgba(150,150,150,0.08) 75%); background-size: 200% 100%; animation: shimmerEffect 1.5s infinite linear; margin-bottom: 16px; }
-        .skeleton-line { height: 16px; width: 85%; border-radius: 6px; background: linear-gradient(90deg, rgba(150,150,150,0.08) 25%, rgba(150,150,150,0.18) 50%, rgba(150,150,150,0.08) 75%); background-size: 200% 100%; animation: shimmerEffect 1.5s infinite linear; margin-bottom: 8px; }
-        .skeleton-line.sub { width: 55%; height: 12px; }
-        @keyframes shimmerEffect { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-        /* --- PHÂN HỆ AI PLAYLIST CREATOR UI --- */
-        .ai-generator-box { background: linear-gradient(135deg, rgba(0,122,255,0.15), rgba(168,122,221,0.15)); border-radius: 24px; padding: 30px; margin-bottom: 40px; border: 1px solid rgba(168,122,221,0.2); position: relative; overflow: hidden; }
-        .ai-sparkle { position: absolute; top: 15px; right: 20px; font-size: 32px; color: var(--primary-color); animation: pulseGlow 2s infinite alternate; }
-        @keyframes pulseGlow { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.2); opacity: 1; } }
-        .ai-input-group { display: flex; gap: 15px; margin-top: 15px; }
-        .ai-input { flex: 1; padding: 14px 22px; border-radius: 16px; border: 1px solid var(--glass-border); background: var(--glass-bg); color: var(--text-primary); outline: none; font-size: 15px; font-weight: 500; transition: var(--transition-premium); }
-        .ai-input:focus { border-color: #007aff; box-shadow: 0 0 15px rgba(0,122,255,0.2); }
-        .ai-btn { padding: 14px 28px; border-radius: 16px; background: linear-gradient(45deg, #007aff, var(--primary-color)); color: white; border: none; font-weight: 700; cursor: pointer; transition: var(--transition-premium); display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(0,122,255,0.25); }
-        .ai-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,122,255,0.4); }
-
-        /* --- MUSIC PLAYER LAYER (AUDIO VISUALIZER INTEGRATED) --- */
-        .music-player { 
-            position: fixed; bottom: 0; width: 100%; height: 95px; display: flex; justify-content: space-between; align-items: center; padding: 0 40px; z-index: 100; 
-            border-top: 1px solid var(--glass-border); background: var(--glass-bg); 
-            backdrop-filter: blur(40px) saturate(210%); -webkit-backdrop-filter: blur(40px) saturate(210%);
-            transition: var(--transition-premium), background-color 1.2s ease;
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.04);
-        }
-        .player-visualizer-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.4; pointer-events: none; }
-        
-        .song-info { display: flex; align-items: center; gap: 18px; width: 30%; position: relative; z-index: 2; }
-        .album-art { 
-            width: 58px; height: 58px; border-radius: 14px; background: var(--primary-color); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12); background-size: cover; background-position: center;
-            transition: var(--transition-premium);
-        }
-        .album-art.playing { animation: breathingGlow 2.5s infinite alternate ease-in-out; }
-        @keyframes breathingGlow {
-            0% { box-shadow: 0 5px 15px var(--ambient-glow), 0 0 0 0px var(--ambient-glow); transform: scale(1); }
-            100% { box-shadow: 0 12px 30px var(--ambient-glow), 0 0 0 8px rgba(255,255,255,0); transform: scale(1.05); }
-        }
-        
-        .player-controls { display: flex; flex-direction: column; align-items: center; width: 40%; position: relative; z-index: 2; }
-        .control-buttons { display: flex; gap: 26px; align-items: center; margin-bottom: 8px; }
-        .play-pause-btn { width: 48px; height: 48px; border-radius: 50%; border: none; background: var(--text-primary); color: var(--bg-1); font-size: 26px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,0.12); transition: var(--transition-premium);}
-        .play-pause-btn:hover { transform: scale(1.08); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
-        .play-pause-btn:active { transform: scale(0.92); }
-        .control-buttons .icon-btn.active-toggle { color: var(--primary-color); text-shadow: 0 0 8px var(--primary-color); }
-        
-        .progress-container { display: flex; align-items: center; gap: 14px; width: 100%; max-width: 580px; }
-        .time { font-size: 12px; color: var(--text-secondary); font-variant-numeric: tabular-nums; font-weight: 600;}
-        .progress-bar, .volume-bar { height: 6px; flex: 1; border-radius: 6px; cursor: pointer; background: rgba(150,150,150,0.18); position: relative; transition: var(--transition-fast); }
-        .progress-bar:hover, .volume-bar:hover { height: 8px; }
-        .progress, .volume-level { height: 100%; background: var(--primary-color); width: 0%; border-radius: 6px; transition: width 0.1s linear; position: relative;}
-        .volume-level { width: 70%; transition: none; }
-        
-        /* Progress Slider Knob */
-        .progress::after, .volume-level::after { content: ''; position: absolute; right: -4px; top: 50%; transform: translateY(-50%) scale(0); width: 10px; height: 10px; background: white; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.15s ease; }
-        .progress-bar:hover .progress::after, .volume-bar:hover .volume-level::after { transform: translateY(-50%) scale(1); }
-
-        .extra-controls { display: flex; align-items: center; gap: 16px; width: 30%; justify-content: flex-end; position: relative; z-index: 2; }
-        .volume-control { display: flex; align-items: center; gap: 12px; width: 130px; }
-
-        /* --- CINEMATIC REALTIME LYRICS ACCORDING TO APPLE MUSIC --- */
-        .lyrics-screen { position: fixed; top: 0; left: 0; width: 100vw; height: calc(100vh - 95px); z-index: 99; background: var(--bg-1); transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease; overflow: hidden; }
-        .hidden-lyrics { transform: translateY(100%) scale(0.98); opacity: 0; pointer-events: none; }
-        .lyrics-background { position: absolute; top: -15%; left: -15%; width: 130%; height: 130%; background-size: cover; background-position: center; filter: blur(100px) brightness(0.35) saturate(180%); z-index: 1; transition: background-image 1.5s ease-in-out; }
-        body.dark-mode .lyrics-background { filter: blur(110px) brightness(0.22) saturate(170%); }
-        .lyrics-header { position: absolute; top: 35px; right: 50px; z-index: 5; }
-        #close-lyrics { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.08); }
-        #close-lyrics:hover { background: rgba(255,255,255,0.25); transform: scale(1.1) translateY(2px); }
-        
-        .lyrics-content { position: relative; z-index: 2; width: 100%; height: 100%; padding: 160px 18vw; overflow-y: auto; scroll-behavior: smooth; display: flex; flex-direction: column; mask-image: linear-gradient(to bottom, transparent 0%, white 25%, white 75%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, white 25%, white 75%, transparent 100%); }
-        .lyrics-content::-webkit-scrollbar { display: none; }
-        #lyrics-text { display: flex; flex-direction: column; gap: 32px; padding-top: 15vh; padding-bottom: 45vh; transform-style: preserve-3d; perspective: 1000px; }
-        
-        /* Hiệu ứng Phân tầng chiều sâu Cinematic Lyrics Text (Depth Fade) */
-        #lyrics-text p { font-size: 38px; font-weight: 800; color: rgba(255, 255, 255, 0.2); line-height: 1.4; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); filter: blur(1.5px); transform: scale(0.93) translateZ(-30px); transform-origin: left center; cursor: pointer; user-select: none; }
-        #lyrics-text p:hover { color: rgba(255, 255, 255, 0.6); filter: blur(0px); }
-        #lyrics-text p.active { color: #ffffff; filter: blur(0px); transform: scale(1.05) translateZ(20px); text-shadow: 0 10px 35px rgba(255,255,255,0.4); animation: textBeatPulse 0.4s ease-out; }
-        
-        /* Hiệu ứng Word highlight hoặc Beat Pulse lên dòng chữ */
-        @keyframes textBeatPulse {
-            0% { transform: scale(1.02) translateZ(10px); filter: brightness(1.3); }
-            100% { transform: scale(1.05) translateZ(20px); filter: brightness(1); }
-        }
-        .lyrics-placeholder { font-size: 24px !important; color: rgba(255,255,255,0.5) !important; text-align: center; margin-top: 100px; font-weight: 500 !important; filter: none !important; }
-
-        /* --- MODAL LAYER DEPTH NÂNG CẤP (XÁC THỰC THỰC TẾ) --- */
-        .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.35); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; pointer-events: none; transition: var(--transition-premium); }
-        .modal.show-modal { opacity: 1; pointer-events: auto; }
-        .modal-content { width: 440px; padding: 40px; border-radius: 32px; position: relative; transform: scale(0.9) translateY(30px); transition: var(--transition-premium); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); }
-        .modal.show-modal .modal-content { transform: scale(1) translateY(0); }
-        .close-btn { position: absolute; top: 22px; right: 26px; font-size: 28px; cursor: pointer; color: var(--text-secondary); width: 34px; height: 34px; display:flex; align-items:center; justify-content:center; border-radius:50%; transition: var(--transition-fast);}
-        .close-btn:hover { background: rgba(0,0,0,0.06); color: var(--text-primary); }
-        
-        /* Form Auth Tabs Toggle UI */
-        .auth-tabs { display: flex; gap: 15px; border-bottom: 1px solid var(--glass-border); margin-bottom: 25px; padding-bottom: 8px; }
-        .auth-tab-link { font-size: 16px; font-weight: 700; color: var(--text-secondary); cursor: pointer; border: none; background: transparent; padding: 6px 12px; position: relative; transition: var(--transition-fast); }
-        .auth-tab-link.active-tab { color: var(--primary-color); }
-        .auth-tab-link.active-tab::after { content: ''; position: absolute; bottom: -9px; left: 0; width: 100%; height: 3px; background: var(--primary-color); border-radius: 3px; }
-
-        .input-group { display: flex; align-items: center; background: rgba(0,0,0,0.04); padding: 14px 20px; border-radius: 18px; margin-bottom: 18px; border: 1px solid rgba(0,0,0,0.02); transition: var(--transition-premium); }
-        body.dark-mode .input-group { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.05); }
-        .input-group:focus-within { border-color: var(--primary-color); box-shadow: 0 0 0 2px rgba(168,122,221,0.2); background: rgba(255,255,255,0.9); }
-        body.dark-mode .input-group:focus-within { background: rgba(30,30,35,0.9); }
-        .input-group i { margin-right: 14px; color: var(--text-secondary); font-size: 22px; }
-        .input-group input { border: none; background: transparent; outline: none; color: var(--text-primary); width: 100%; font-size: 15px; font-weight: 500;}
-        .submit-btn { width: 100%; padding: 16px; border-radius: 18px; background: var(--primary-color); color: white; border: none; cursor: pointer; font-size: 16px; font-weight: 700; box-shadow: 0 8px 22px var(--ambient-glow); transition: var(--transition-premium); }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px var(--ambient-glow); background: var(--hover-color); }
-
-        /* --- SETTINGS ROW & SWITCH STYLE APPLE --- */
-        .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--glass-border); }
-        .settings-row:last-child { border-bottom: none; }
-        .settings-label { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 15px; }
-        
-        .toggle-switch { position: relative; width: 52px; height: 30px; background-color: #e9e9ea; border-radius: 30px; cursor: pointer; transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        body.dark-mode .toggle-switch { background-color: #39393d; }
-        .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 26px; height: 26px; background-color: white; border-radius: 50%; box-shadow: 0 3px 7px rgba(0,0,0,0.15); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .toggle-switch.active { background-color: #34c759; }
-        .toggle-switch.active::after { transform: translateX(22px); }
-
-        .color-picker { display: flex; gap: 10px; }
-        .color-btn { width: 26px; height: 26px; border-radius: 50%; border: none; cursor: pointer; border: 2.5px solid transparent; transition: var(--transition-premium); }
-        .color-btn.active { border-color: var(--text-primary); transform: scale(1.2); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-
-        .lang-select { background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-primary); padding: 6px 12px; border-radius: 10px; outline: none; font-weight: 600; cursor: pointer; }
-
-        /* Cloud Sync Loader Icon */
-        .sync-indicator { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: #34c759; font-weight: 600; margin-left: 10px; opacity: 0; transition: opacity 0.3s ease; }
-        .sync-indicator.syncing { opacity: 1; }
-        .sync-indicator i { animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(30deg); } }
-
-        /* Notification Toast Apple Style */
-        .toast { position: fixed; top: 25px; left: 50%; transform: translateX(-50%) translateY(-100px); background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); padding: 14px 28px; border-radius: 30px; font-weight: 700; z-index: 9999; box-shadow: 0 15px 35px rgba(0,0,0,0.08); transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 12px; font-size: 14px;}
-        body.dark-mode .toast { background: rgba(30, 30, 35, 0.7); border-color: rgba(255, 255, 255, 0.08); }
-        .toast.show { transform: translateX(-50%) translateY(0); }
-        .toast i { color: #34c759; font-size: 22px;}
-
-        /* --- RESPONSIVE MOBILE OPTIMIZATION --- */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column; height: calc(100vh - 115px); }
-            .sidebar {
-                width: 100%; height: 72px; flex-direction: row; justify-content: space-between;
-                align-items: center; padding: 10px 20px; order: 2; border-right: none; 
-                border-top: 1px solid var(--glass-border);
-            }
-            .logo, .playlists, .add-playlist { display: none !important; }
-            .menu { display: flex; width: 100%; justify-content: space-around; margin: 0; }
-            .menu a { margin-bottom: 0; padding: 10px; font-size: 12px; flex-direction: column; gap: 4px; border-radius: 12px; flex: 1; justify-content: center; }
-            .menu a i { font-size: 22px; }
-            .menu a.active::after { display: none; }
-
-            .main-content { flex: 1; padding: 20px; order: 1; }
-            .glass-header { margin-bottom: 20px; position: relative; top: 0; padding: 0; }
-            .search-bar { width: 100%; max-width: calc(100% - 60px); }
-            .hero-banner { padding: 35px 25px; margin-bottom: 20px; }
-            .grid-songs { grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 18px; }
-
-            .music-player { height: 115px; flex-direction: column; padding: 12px 20px; justify-content: center; gap: 8px; }
-            .song-info { width: 100%; justify-content: space-between; }
-            .album-art { width: 46px; height: 46px; border-radius: 10px; }
-            .player-controls { width: 100%; }
-            .control-buttons { gap: 24px; margin-bottom: 4px; }
-            .play-pause-btn { width: 40px; height: 40px; font-size: 22px; }
-            .extra-controls { display: none !important; } 
-            
-            .lyrics-content { padding: 120px 25px; }
-            #lyrics-text p { font-size: 28px; }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="noise-overlay"></div>
     <div class="animated-background"></div>
     <div class="aurora-blob blob-1"></div>
     <div class="aurora-blob blob-2"></div>
@@ -340,42 +17,67 @@
 
     <div id="toast" class="toast"><i class='bx bx-check-circle'></i> <span id="toast-msg">Thành công</span></div>
 
-    <div id="song-context-menu" class="context-menu">
-        <div class="context-menu-item" onclick="addCurrentContextToFavorites()"><i class='bx bx-heart'></i> <span data-i18n="add_fav">Thêm vào yêu thích</span></div>
-        <div style="height: 1px; background: var(--glass-border); margin: 4px 0;"></div>
-        <div id="context-playlists-anchor"></div>
+    <div id="song-context-menu" class="context-menu glass">
+        <div class="context-menu-item" onclick="addTrackToFavoritesFromContext()"><i class='bx bx-heart'></i> <span data-i18n="add_fav">Thêm vào yêu thích</span></div>
+        <div class="context-menu-item" onclick="openPlaylistPickerFromContext()"><i class='bx bx-plus-circle'></i> <span data-i18n="add_to_playlist">Thêm vào Playlist...</span></div>
+        <div class="context-menu-item hidden text-danger" id="context-remove-playlist-btn" onclick="removeTrackFromCurrentContextPlaylist()"><i class='bx bx-trash'></i> <span>Xóa khỏi Playlist này</span></div>
     </div>
 
     <div class="app-container">
         <aside class="sidebar glass">
             <div class="logo">
-                <i class='bx bxl-sketch'></i>
-                <span>Lavendermony</span>
+                <div class="logo-orb">
+                    <i class='bx bx-headphone'></i>
+                </div>
+                <span class="logo-text">Lavendermony</span>
             </div>
+            
             <nav class="menu">
-                <a href="#" class="active" onclick="switchView('home', this)"><i class='bx bx-home-alt'></i> <span data-i18n="home">Trang chủ</span></a>
-                <a href="#" onclick="switchView('discover', this)"><i class='bx bx-compass'></i> <span data-i18n="discover">Khám phá</span></a>
-                <a href="#" onclick="switchView('library', this)"><i class='bx bx-library'></i> <span data-i18n="library">Thư viện</span></a>
+                <a href="#" class="active" onclick="switchView('home', this)"><i class='bx bx-home-alt'></i> <span class="nav-text" data-i18n="home">Trang chủ</span></a>
+                <a href="#" onclick="switchView('discover', this)"><i class='bx bx-compass'></i> <span class="nav-text" data-i18n="discover">Khám phá</span></a>
+                <a href="#" onclick="switchView('library', this)"><i class='bx bx-library'></i> <span class="nav-text" data-i18n="library">Thư viện</span></a>
             </nav>
             <div class="playlists">
                 <h3 data-i18n="playlists">PLAYLISTS</h3>
-                <div class="playlists-list" id="sidebar-playlists-list">
-                    </div>
-                <button class="add-playlist" id="open-add-playlist"><i class='bx bx-plus'></i> <span data-i18n="create_playlist">Tạo Playlist mới</span></button>
+                <div class="playlists-list" id="sidebar-playlists-list"></div>
+                <button class="add-playlist glass" id="open-add-playlist"><i class='bx bx-plus'></i> <span data-i18n="create_playlist">Tạo Playlist mới</span></button>
             </div>
         </aside>
 
         <main class="main-content">
-            <header class="glass-header">
-                <div class="search-bar glass">
-                    <i class='bx bx-search'></i>
-                    <input type="text" id="search-input" data-i18n-placeholder="search_placeholder" placeholder="Gõ tên bài hát (Enter để tìm)...">
+            <header class="glass-header glass">
+                <div class="search-container">
+                    <div class="search-bar glass">
+                        <i class='bx bx-search search-icon'></i>
+                        <div class="search-input-wrapper">
+                            <input type="text" id="search-input" autocomplete="off">
+                            <div class="search-placeholder-anim" id="search-placeholder">Khởi động AI...</div>
+                        </div>
+                        <i class='bx bx-microphone voice-search-icon hide-mobile'></i>
+                        <i class='bx bx-x hidden clear-search-icon' id="clear-search-btn"></i>
+                    </div>
+                    
+                    <div class="search-suggestions glass hidden" id="search-suggestions">
+                        <div class="search-filters">
+                            <span class="filter-tab active" onclick="setSearchFilter('all', this)">Tất cả</span>
+                            <span class="filter-tab" onclick="setSearchFilter('songs', this)">Bài hát</span>
+                            <span class="filter-tab" onclick="setSearchFilter('artists', this)">Nghệ sĩ</span>
+                        </div>
+                        <h4 class="suggestion-title">Gợi ý phổ biến</h4>
+                        <div class="suggestion-item" onclick="triggerQuickSearch('Lofi Night Drive')"><i class='bx bx-car'></i> Lofi Night Drive</div>
+                        <div class="suggestion-item" onclick="triggerQuickSearch('V-Pop Chill')"><i class='bx bx-headphone'></i> V-Pop Chill</div>
+                        <div class="suggestion-item" onclick="triggerQuickSearch('Jazz Rain')"><i class='bx bx-cloud-rain'></i> Jazz Rain</div>
+                        
+                        <h4 class="suggestion-title history-title hidden">Lịch sử tìm kiếm</h4>
+                        <div id="search-history-container"></div>
+                    </div>
                 </div>
+
                 <div class="header-actions">
-                    <span id="global-sync-indicator" class="sync-indicator"><i class='bx bx-sync'></i> iCloud Sync</span>
+                    <span id="global-sync-indicator" class="sync-indicator"><i class='bx bx-cloud-upload'></i> Đã đồng bộ</span>
                     <button id="settings-btn" class="icon-btn glass" title="Cài đặt"><i class='bx bx-cog'></i></button>
                     <button id="theme-toggle" class="icon-btn glass"><i class='bx bx-moon'></i></button>
-                    <button id="login-btn" class="login-btn"><i class='bx bx-user-circle'></i> <span data-i18n="login">Đăng nhập</span></button>
+                    <button id="login-btn" class="login-btn glass"><i class='bx bx-user-circle'></i> <span class="hide-mobile" data-i18n="login">Đăng nhập</span></button>
                     <div id="user-profile" class="user-profile hidden">
                         <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" id="user-avatar-img">
                     </div>
@@ -386,58 +88,39 @@
                 <div class="hero-banner glass">
                     <div class="hero-text">
                         <h1 data-i18n="hero_title">Âm nhạc chữa lành tâm hồn</h1>
-                        <p style="margin: 12px 0 20px 0; opacity: 0.85; font-size: 15px;" data-i18n="hero_desc">Khám phá không gian âm nhạc dịu nhẹ với Lavendermony</p>
-                        <button class="play-btn-hero" onclick="playTrendingHero()"><i class='bx bx-play-circle' style="font-size: 22px;"></i> <span data-i18n="listen_now">Nghe Ngay</span></button>
+                        <p style="margin: 12px 0 24px 0; color: var(--text-secondary); font-size: 16px;">Khám phá không gian âm nhạc dịu nhẹ với AI DJ</p>
+                        <button class="play-btn-hero glass" onclick="playTrendingHero()"><i class='bx bx-play-circle' style="font-size: 24px;"></i> <span data-i18n="listen_now">Nghe Ngay</span></button>
                     </div>
                 </div>
 
-                <div class="section-title">
-                    <span data-i18n="recently_played">Nghe gần đây</span>
-                </div>
-                <div class="grid-songs" id="recently-played-grid">
-                    <p style="color: var(--text-secondary); grid-column: 1/-1;" data-i18n="recent_empty">Chưa có bài hát nào được phát gần đây.</p>
-                </div>
+                <div class="section-title"><span data-i18n="recently_played">Nghe gần đây</span></div>
+                <div class="grid-songs" id="recently-played-grid"></div>
 
-                <div class="section-title">
-                    <span data-i18n="recommendation">Gợi ý dành cho bạn</span>
-                </div>
-                <div class="grid-songs" id="recommendations-grid">
-                    </div>
+                <div class="section-title"><span data-i18n="recommendation">Gợi ý dành cho bạn</span></div>
+                <div class="grid-songs" id="recommendations-grid"></div>
             </section>
 
             <section id="view-discover" class="view-section">
                 <div class="ai-generator-box glass">
                     <i class='bx bxs-magic-wand ai-sparkle'></i>
-                    <h2 style="font-size: 22px; font-weight: 800;" data-i18n="ai_title">Lavendermony AI Playlist Engine</h2>
-                    <p style="font-size: 14px; opacity: 0.8; margin-top: 5px;" data-i18n="ai_desc">Nhập tâm trạng hoặc mong muốn của bạn, AI sẽ tự động thiết kế một danh sách nhạc hoàn hảo.</p>
+                    <h2 style="font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">AI Smart DJ</h2>
+                    <p style="font-size: 15px; color: var(--text-secondary); margin-top: 8px;">Mô tả không gian của bạn (VD: Lái xe đêm mưa), AI sẽ thiết kế playlist.</p>
                     <div class="ai-input-group">
-                        <input type="text" id="ai-mood-input" class="ai-input" placeholder="Ví dụ: Nhạc lofi nhẹ nhàng để tập trung code đêm khuya, chill nhẹ...">
-                        <button class="ai-btn" id="ai-generate-btn"><i class='bx bx-brain'></i> <span data-i18n="ai_generate">Tạo bằng AI</span></button>
+                        <input type="text" id="ai-mood-input" class="ai-input glass" placeholder="Tâm trạng của bạn lúc này...">
+                        <button class="ai-btn glass" id="ai-generate-btn"><i class='bx bx-brain'></i> <span class="hide-mobile">Tạo Playlist</span></button>
                     </div>
-                </div>
-
-                <div class="section-title"><span data-i18n="trending_genres">Xu hướng & Thể loại</span></div>
-                <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:30px;">
-                    <button class="login-btn" onclick="triggerQuickSearch('Lofi Chill Music')">Lofi Chill</button>
-                    <button class="login-btn" onclick="triggerQuickSearch('Acoustic Healing')">Acoustic Chữa Lành</button>
-                    <button class="login-btn" onclick="triggerQuickSearch('Deep Focus Piano')">Piano Tập Trung</button>
-                    <button class="login-btn" onclick="triggerQuickSearch('Synthwave Retro Sleep')">Synthwave Ngủ Ngon</button>
                 </div>
 
                 <div class="section-title"><span data-i18n="search_results">Kết quả tìm kiếm</span></div>
                 <div class="grid-songs" id="search-results-grid">
-                    <p style="color: var(--text-secondary);" data-i18n="search_hint">Hãy nhập tên ca khúc hoặc dùng tính năng AI ở trên...</p>
+                    <p style="color: var(--text-secondary);">Gõ từ khóa hoặc dùng AI DJ để tìm kiếm...</p>
                 </div>
             </section>
 
             <section id="view-library" class="view-section">
                 <div class="section-title"><span data-i18n="favorites">Bài hát yêu thích</span></div>
-                <div class="grid-songs" id="favorites-songs-grid">
-                    <p style="color: var(--text-secondary); grid-column: 1/-1;" data-i18n="fav_empty">Danh sách yêu thích trống. Hãy nhấn tim bài hát bạn thích!</p>
-                </div>
-
-                <div id="dynamic-playlist-sections">
-                    </div>
+                <div class="grid-songs" id="favorites-songs-grid"></div>
+                <div id="dynamic-playlist-sections"></div>
             </section>
         </main>
     </div>
@@ -445,11 +128,11 @@
     <div id="lyrics-screen" class="lyrics-screen hidden-lyrics">
         <div class="lyrics-background" id="lyrics-bg"></div>
         <div class="lyrics-header">
-            <button id="close-lyrics" class="icon-btn"><i class='bx bx-chevron-down' style="font-size: 32px; color: white;"></i></button>
+            <button id="close-lyrics" class="icon-btn glass"><i class='bx bx-chevron-down' style="font-size: 32px;"></i></button>
         </div>
         <div class="lyrics-content" id="lyrics-scroll-container">
             <div id="lyrics-text">
-                <p class="lyrics-placeholder" data-i18n="lyrics_hint">Nhấn nút Micro ở thanh phát nhạc để xem lời bài hát đồng bộ</p>
+                <p class="lyrics-placeholder">Kích hoạt bài hát để đồng bộ lời (Karaoke Sync)</p>
             </div>
         </div>
     </div>
@@ -459,1249 +142,262 @@
 
         <div class="song-info">
             <div class="album-art" id="album-art"></div>
-            <div class="song-details" style="max-width: 60%; overflow: hidden;">
-                <h4 style="font-weight: 700; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" data-i18n="no_song">Chưa có bài hát</h4>
-                <p style="font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;">Lavendermony</p>
+            <div class="song-details">
+                <h4 id="player-title" data-i18n="no_song">Chưa có bài hát</h4>
+                <p id="player-artist">Lavendermony</p>
             </div>
-            <button class="icon-btn like-btn" id="like-btn" title="Yêu thích"><i class='bx bx-heart' style="font-size: 24px;"></i></button>
+            <button class="icon-btn like-btn hide-mobile" id="like-btn" onclick="toggleLikeCurrentTrack()"><i class='bx bx-heart' style="font-size: 24px;"></i></button>
         </div>
 
         <div class="player-controls">
             <div class="control-buttons">
-                <button class="icon-btn" id="shuffle-toggle-btn" title="Shuffle"><i class='bx bx-shuffle'></i></button>
-                <button class="icon-btn" onclick="playPrevTrack()" title="Previous"><i class='bx bx-skip-previous-circle' style="font-size: 26px;"></i></button>
-                <button class="play-pause-btn" id="play-pause-btn"><i class='bx bx-play'></i></button>
-                <button class="icon-btn" onclick="playNextTrack()" title="Next"><i class='bx bx-skip-next-circle' style="font-size: 26px;"></i></button>
-                <button class="icon-btn" id="repeat-toggle-btn" title="Repeat"><i class='bx bx-repeat'></i></button>
+                <button class="icon-btn hide-mobile" id="shuffle-toggle-btn" onclick="toggleShuffle()"><i class='bx bx-shuffle'></i></button>
+                <button class="icon-btn" onclick="playPrevTrack()"><i class='bx bx-skip-previous-circle' style="font-size: 28px;"></i></button>
+                <button class="play-pause-btn glass" id="play-pause-btn"><i class='bx bx-play'></i></button>
+                <button class="icon-btn" onclick="playNextTrack()"><i class='bx bx-skip-next-circle' style="font-size: 28px;"></i></button>
+                <button class="icon-btn hide-mobile" id="repeat-toggle-btn" onclick="toggleRepeat()"><i class='bx bx-repeat'></i></button>
             </div>
             <div class="progress-container">
-                <span class="time current">0:00</span>
-                <div class="progress-bar" id="player-progress-bar-wrap">
-                    <div class="progress" id="progress"></div>
-                </div>
-                <span class="time total">0:00</span>
+                <span class="time current hide-mobile">0:00</span>
+                <div class="progress-bar" id="player-progress-bar-wrap"><div class="progress" id="progress"></div></div>
+                <span class="time total hide-mobile">0:00</span>
             </div>
         </div>
 
-        <div class="extra-controls">
-            <button class="icon-btn" title="Tải nhạc xuống" id="download-btn"><i class='bx bx-download'></i></button>
-            <button class="icon-btn" title="Lyrics" id="lyrics-toggle-btn"><i class='bx bx-microphone'></i></button>
+        <div class="extra-controls hide-mobile">
+            <button class="icon-btn" id="lyrics-toggle-btn"><i class='bx bx-microphone'></i></button>
             <div class="volume-control">
-                <i class='bx bx-volume-full' id="volume-icon-status" style="font-size: 20px; color: var(--text-secondary);"></i>
-                <div class="volume-bar" id="player-volume-bar-wrap">
-                    <div class="volume-level" id="volume-level-bar"></div>
-                </div>
+                <i class='bx bx-volume-full' id="volume-icon-status"></i>
+                <div class="volume-bar" id="player-volume-bar-wrap"><div class="volume-level" id="volume-level-bar"></div></div>
             </div>
         </div>
     </footer>
 
     <div id="auth-modal" class="modal">
-        <div class="modal-content glass">
-            <span class="close-btn modal-close" onclick="toggleAuthModal(false)">&times;</span>
-            
-            <div class="auth-tabs">
-                <button class="auth-tab-link active-tab" id="tab-login-btn" onclick="switchAuthTab('login')">Đăng nhập</button>
-                <button class="auth-tab-link" id="tab-register-btn" onclick="switchAuthTab('register')">Đăng ký</button>
+        <div class="modal-content auth-layout glass">
+            <div class="auth-visual hide-mobile">
+                <div class="visual-glass-card glass">
+                    <i class='bx bx-headphone'></i>
+                    <h2>Đắm chìm vào âm nhạc của bạn.</h2>
+                    <p>Lưu trữ playlist, đồng bộ đa nền tảng và trải nghiệm trợ lý AI DJ thông minh.</p>
+                </div>
             </div>
+            <div class="auth-forms">
+                <span class="close-btn modal-close glass" onclick="toggleAuthModal(false)">&times;</span>
+                <div class="auth-tabs">
+                    <button class="auth-tab-link active-tab" id="tab-login-btn" onclick="switchAuthTab('login')">Đăng nhập</button>
+                    <button class="auth-tab-link" id="tab-register-btn" onclick="switchAuthTab('register')">Đăng ký</button>
+                </div>
 
-            <form id="login-form">
-                <div style="text-align: center; margin-bottom: 25px;">
-                    <i class='bx bxl-apple' style="font-size: 45px; margin-bottom: 5px;"></i>
-                    <h3 data-i18n="login_apple" style="font-weight: 800;">Đăng nhập Apple ID</h3>
-                </div>
-                <div class="input-group">
-                    <i class='bx bx-envelope'></i>
-                    <input type="email" id="login-email" placeholder="Email (Apple ID)" required>
-                </div>
-                <div class="input-group">
-                    <i class='bx bx-lock-alt'></i>
-                    <input type="password" id="login-password" placeholder="Mật khẩu" required>
-                </div>
-                <button type="submit" class="submit-btn" data-i18n="login">Đăng nhập</button>
-            </form>
+                <form id="login-form">
+                    <div class="floating-input-group">
+                        <input type="email" id="login-email" required placeholder=" ">
+                        <label><i class='bx bx-envelope'></i> Email của bạn</label>
+                    </div>
+                    <div class="floating-input-group">
+                        <input type="password" id="login-password" required placeholder=" ">
+                        <label><i class='bx bx-lock-alt'></i> Mật khẩu</label>
+                    </div>
+                    <div style="text-align: right; margin-bottom: 15px;"><a href="#" style="color:var(--primary-color); font-size:13px; text-decoration:none;">Quên mật khẩu?</a></div>
+                    <button type="submit" class="submit-btn glass">Tiếp tục</button>
+                    
+                    <div class="social-login">
+                        <p>Hoặc tiếp tục với</p>
+                        <div class="social-btns">
+                            <button type="button" class="social-btn glass"><i class='bx bxl-google'></i></button>
+                            <button type="button" class="social-btn glass"><i class='bx bxl-apple'></i></button>
+                            <button type="button" class="social-btn glass"><i class='bx bxl-github'></i></button>
+                        </div>
+                    </div>
+                </form>
 
-            <form id="register-form" class="hidden">
-                <div style="text-align: center; margin-bottom: 25px;">
-                    <i class='bx bx-user-plus' style="font-size: 45px; color: var(--primary-color); margin-bottom: 5px;"></i>
-                    <h3 style="font-weight: 800;">Tạo tài khoản mới</h3>
-                </div>
-                <div class="input-group">
-                    <i class='bx bx-user'></i>
-                    <input type="text" id="reg-name" placeholder="Tên hiển thị của bạn" required>
-                </div>
-                <div class="input-group">
-                    <i class='bx bx-envelope'></i>
-                    <input type="email" id="reg-email" placeholder="Địa chỉ Email" required>
-                </div>
-                <div class="input-group">
-                    <i class='bx bx-lock-alt'></i>
-                    <input type="password" id="reg-password" placeholder="Mật khẩu bảo mật" required>
-                </div>
-                <button type="submit" class="submit-btn">Đăng ký tài khoản</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="profile-modal" class="modal">
-        <div class="modal-content glass" style="text-align: center;">
-            <span class="close-btn modal-close" onclick="toggleProfileModal(false)">&times;</span>
-            <img src="https://i.pravatar.cc/150?img=11" alt="Avatar lớn" id="profile-modal-avatar" style="width: 95px; height: 95px; border-radius: 50%; border: 3px solid var(--primary-color); margin-bottom: 15px; box-shadow: 0 8px 24px var(--ambient-glow);">
-            <h2 id="display-user-name" style="font-weight: 800;">Lavendermony User</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 25px; font-weight: 600;" id="display-user-email">user@apple.com</p>
-            
-            <div style="display: flex; justify-content: space-around; padding: 22px; border-radius: 24px; background: rgba(0,0,0,0.04); margin-bottom: 25px; border: 1px solid var(--glass-border);">
-                <div><h3 id="stat-playlists" style="font-size: 22px; font-weight: 800;">0</h3><p style="font-size:12px; opacity:0.7; font-weight:600;">Playlists</p></div>
-                <div><h3 id="stat-likes" style="font-size: 22px; font-weight: 800;">0</h3><p style="font-size:12px; opacity:0.7; font-weight:600;" data-i18n="favorites">Yêu thích</p></div>
+                <form id="register-form" class="hidden">
+                    <div class="floating-input-group">
+                        <input type="text" id="reg-name" required placeholder=" ">
+                        <label><i class='bx bx-user'></i> Tên hiển thị</label>
+                    </div>
+                    <div class="floating-input-group">
+                        <input type="email" id="reg-email" required placeholder=" ">
+                        <label><i class='bx bx-envelope'></i> Email</label>
+                    </div>
+                    <div class="floating-input-group">
+                        <input type="password" id="reg-password" required placeholder=" ">
+                        <label><i class='bx bx-lock-alt'></i> Mật khẩu</label>
+                    </div>
+                    <button type="submit" class="submit-btn glass">Tạo tài khoản</button>
+                </form>
             </div>
-            <button class="submit-btn" id="logout-btn" style="background: #ff3b30; box-shadow: 0 6px 20px rgba(255,59,48,0.3);" data-i18n="logout"><i class='bx bx-log-out'></i> Đăng xuất</button>
-        </div>
-    </div>
-
-    <div id="create-playlist-modal" class="modal">
-        <div class="modal-content glass">
-            <span class="close-btn modal-close" onclick="toggleCreatePlaylistModal(false)">&times;</span>
-            <h3 style="margin-bottom: 22px; font-weight: 800;" data-i18n="create_playlist_title">Tạo Playlist Mới</h3>
-            <div class="input-group">
-                <i class='bx bx-list-plus'></i>
-                <input type="text" id="new-playlist-name" placeholder="Tên danh sách âm nhạc của bạn..." required>
-            </div>
-            <button id="confirm-create-playlist" class="submit-btn" data-i18n="create_btn">Tạo ngay</button>
         </div>
     </div>
 
     <div id="settings-modal" class="modal">
-        <div class="modal-content glass">
-            <span class="close-btn modal-close" onclick="toggleSettingsModal(false)">&times;</span>
-            <h2 style="margin-bottom: 25px; display: flex; align-items:center; gap: 12px; font-weight: 800;"><i class='bx bx-slider-alt' style="color:var(--primary-color);"></i> <span data-i18n="settings">Cài đặt</span></h2>
-            
-            <div class="settings-row">
-                <div class="settings-label"><i class='bx bx-globe'></i> <span data-i18n="language">Ngôn ngữ</span></div>
-                <select id="lang-selector" class="lang-select">
-                    <option value="vi">Tiếng Việt</option>
-                    <option value="en">English</option>
-                    <option value="fr">Français</option>
-                    <option value="ja">日本語</option>
-                </select>
-            </div>
-
-            <div class="settings-row">
-                <div class="settings-label"><i class='bx bx-palette'></i> <span data-i18n="theme_color">Màu chủ đạo</span></div>
-                <div class="color-picker">
-                    <button class="color-btn active" style="background: #a87add;" data-color="#a87add"></button>
-                    <button class="color-btn" style="background: #ff2d55;" data-color="#ff2d55"></button>
-                    <button class="color-btn" style="background: #007aff;" data-color="#007aff"></button>
-                    <button class="color-btn" style="background: #34c759;" data-color="#34c759"></button>
-                    <button class="color-btn" style="background: #ff9500;" data-color="#ff9500"></button>
+        <div class="modal-content settings-layout-premium glass">
+            <span class="close-btn modal-close glass" onclick="toggleSettingsModal(false)">&times;</span>
+            <aside class="settings-sidebar hide-mobile">
+                <h3>Cài đặt</h3>
+                <div class="settings-menu-item active" onclick="switchSettingsSection('general', this)"><i class='bx bx-cog'></i> <span>Chung</span></div>
+                <div class="settings-menu-item" onclick="switchSettingsSection('appearance', this)"><i class='bx bx-palette'></i> <span>Giao diện</span></div>
+                <div class="settings-menu-item" onclick="switchSettingsSection('audio', this)"><i class='bx bx-slider-alt'></i> <span>Âm thanh</span></div>
+                <div class="settings-menu-item" onclick="switchSettingsSection('playback', this)"><i class='bx bx-play-circle'></i> <span>Trình phát</span></div>
+                <div class="settings-menu-item" onclick="switchSettingsSection('storage', this)"><i class='bx bx-data'></i> <span>Lưu trữ</span></div>
+            </aside>
+            <div class="settings-body-content glass">
+                <div id="settings-sec-general" class="settings-section-block active">
+                    <h2>Cài đặt chung</h2>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Ngôn ngữ giao diện</h4>
+                            <p>Thay đổi ngôn ngữ hiển thị của hệ thống</p>
+                        </div>
+                        <select id="lang-selector" class="lang-select glass" onchange="changeLanguage(this.value)">
+                            <option value="vi">Tiếng Việt</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Tự động sao lưu (Cloud Sync)</h4>
+                            <p>Đồng bộ playlist và thư viện yêu thích</p>
+                        </div>
+                        <div class="toggle-switch active" id="toggle-icloud" onclick="toggleSetting('icloud', this)"></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="settings-row">
-                <div class="settings-label"><i class='bx bxl-apple'></i> Apple Music Sync</div>
-                <div class="toggle-switch active" id="toggle-apple"></div>
-            </div>
+                <div id="settings-sec-appearance" class="settings-section-block">
+                    <h2>Tùy chỉnh giao diện</h2>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Màu chủ đạo (Accent Color)</h4>
+                            <p>Đồng bộ màu sắc điểm nhấn của ứng dụng</p>
+                        </div>
+                        <div class="color-picker">
+                            <button class="color-btn active" style="background: #a87add;" data-color="#a87add"></button>
+                            <button class="color-btn" style="background: #ff2d55;" data-color="#ff2d55"></button>
+                            <button class="color-btn" style="background: #007aff;" data-color="#007aff"></button>
+                            <button class="color-btn" style="background: #34c759;" data-color="#34c759"></button>
+                        </div>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Cường độ Blur nền kính</h4>
+                            <p>Điều chỉnh hiệu ứng mờ nhòe Glassmorphism</p>
+                        </div>
+                        <input type="range" class="premium-slider" min="10" max="80" value="40" id="blur-intensity-slider">
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Độ trong suốt bề mặt</h4>
+                            <p>Thay đổi opacity lớp phủ sương mờ</p>
+                        </div>
+                        <input type="range" class="premium-slider" min="10" max="90" value="35" id="glass-opacity-slider">
+                    </div>
+                </div>
 
-            <div class="settings-row">
-                <div class="settings-label"><i class='bx bx-cloud'></i> iCloud Backup</div>
-                <div class="toggle-switch active" id="toggle-icloud"></div>
+                <div id="settings-sec-audio" class="settings-section-block">
+                    <h2>Thiết lập Âm thanh</h2>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Chất lượng Streaming</h4>
+                            <p>Chất lượng nhạc tự động theo băng thông mạng</p>
+                        </div>
+                        <select class="lang-select glass">
+                            <option>Tự động (Khuyên dùng)</option>
+                            <option>Tiết kiệm Data (128kbps)</option>
+                            <option>Chất lượng cao (320kbps)</option>
+                        </select>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Âm thanh không gian (Spatial Audio)</h4>
+                            <p>Giả lập âm thanh vòm 360 độ (Cần tai nghe hỗ trợ)</p>
+                        </div>
+                        <div class="toggle-switch" id="toggle-spatial" onclick="toggleSetting('spatialAudio', this)"></div>
+                    </div>
+                    <div class="settings-row" style="display: block;">
+                        <div class="settings-label" style="margin-bottom: 15px;">
+                            <h4>Bộ chỉnh âm (Equalizer)</h4>
+                            <p>Mô phỏng tùy chỉnh băng tần âm thanh</p>
+                        </div>
+                        <div class="equalizer-mock">
+                            <div class="eq-bar"><div class="eq-fill" style="height: 40%;"></div></div>
+                            <div class="eq-bar"><div class="eq-fill" style="height: 70%;"></div></div>
+                            <div class="eq-bar"><div class="eq-fill" style="height: 90%;"></div></div>
+                            <div class="eq-bar"><div class="eq-fill" style="height: 50%;"></div></div>
+                            <div class="eq-bar"><div class="eq-fill" style="height: 80%;"></div></div>
+                            <div class="eq-bar"><div class="eq-fill" style="height: 30%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings-sec-playback" class="settings-section-block">
+                    <h2>Cấu hình trình phát</h2>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Trộn nhạc mượt mà (Crossfade)</h4>
+                            <p>Làm mờ chuyển bài không ngắt quãng</p>
+                        </div>
+                        <div class="toggle-switch" id="toggle-crossfade" onclick="toggleSetting('crossfade', this)"></div>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Phong cách sóng nhạc (Visualizer)</h4>
+                            <p>Thay đổi đồ họa sóng động dưới Player</p>
+                        </div>
+                        <select class="lang-select glass" id="visualizer-style-select" onchange="localStorage.setItem('visualizerStyle', this.value)">
+                            <option value="wave">Sóng Biển Điện Tử</option>
+                            <option value="bars">Cột Sóng Cổ Điển</option>
+                            <option value="none">Tắt hiệu ứng</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="settings-sec-storage" class="settings-section-block">
+                    <h2>Lưu trữ & Dữ liệu</h2>
+                    <div class="settings-row">
+                        <div class="settings-label">
+                            <h4>Bộ nhớ đệm (Cache)</h4>
+                            <p>142 MB đang sử dụng (Ảnh bìa, Lịch sử, Tùy chọn)</p>
+                        </div>
+                        <button class="submit-btn glass" style="width: auto; padding: 10px 20px; font-size: 14px; margin: 0;" onclick="clearAppCache()">Xóa Cache</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="yt-hidden-player" style="position: absolute; top: -9999px; left: -9999px; width: 200px; height: 200px; opacity: 0; pointer-events: none;"></div>
-
-    <script>
-        // --- CẤU HÌNH CONFIG & CORE DATABASE STATE ---
-        const YOUTUBE_API_KEY = 'AIzaSyBK57eEaQ0xgthZKLrrHzzqlKB8doz5CLc'.trim();
-        
-        let appState = {
-            currentTrack: null,
-            playbackQueue: [],
-            currentQueueIndex: -1,
-            isShuffle: false,
-            isRepeat: false, // 0: no, 1: repeat all, 2: repeat one -> handle basic toggle
-            playlists: JSON.parse(localStorage.getItem('appPlaylists')) || {
-                "pl_lofi": { id: "pl_lofi", name: "Nhạc Lofi Chill", songs: [] },
-                "pl_code": { id: "pl_code", name: "Coding Session", songs: [] }
-            },
-            likedSongs: JSON.parse(localStorage.getItem('likedSongs')) || [],
-            recentlyPlayed: JSON.parse(localStorage.getItem('recentlyPlayed')) || [],
-            users: JSON.parse(localStorage.getItem('appUsers')) || [
-                { email: "user@apple.com", password: "123", name: "Lavendermony User" }
-            ],
-            currentContextTrackId: null
-        };
-
-        // Danh sách nhạc gợi ý mặc định ban đầu cực chill
-        const DEFAULT_RECOMMENDATIONS = [
-            { id: "jfKfPfyJRdk", title: "lofi hip hop radio - beats to relax/study to", artist: "ChilledCow", thumb: "https://img.youtube.com/vi/jfKfPfyJRdk/hqdefault.jpg" },
-            { id: "5qap5aO4i9A", title: "Lofi Hip Hop Radio - Beats to Relax", artist: "Lofi Girl", thumb: "https://img.youtube.com/vi/5qap5aO4i9A/hqdefault.jpg" },
-            { id: "DWcJYXZM7o4", title: "Chilled lofi beats to code/relax to", artist: "Lofi Studio", thumb: "https://img.youtube.com/vi/DWcJYXZM7o4/hqdefault.jpg" },
-            { id: "tntOCGkgt98", title: "Tokyo Lofi Chill - Relaxing Beats", artist: "Japan Vibes", thumb: "https://img.youtube.com/vi/tntOCGkgt98/hqdefault.jpg" }
-        ];
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initApp();
-        });
-
-        function initApp() {
-            setupLanguages();
-            setupThemeAndColors();
-            setupModalsAndTabs();
-            setupYouTubePlayer();
-            setupGlobalEventHandlers();
-            renderSidebarPlaylists();
-            renderLibraryAndPlaylists();
-            renderRecommendations();
-            renderRecentlyPlayed();
-            setupVisualizer();
-            checkUserLoginStatus();
-        }
-
-        // --- 1. TOAST & CƠ CHẾ ĐỒNG BỘ ĐÁM MÂY GIẢ LẬP ---
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        function triggerCloudSync() {
-            if(localStorage.getItem('icloud_sync') === 'false') return;
-            const syncEl = document.getElementById('global-sync-indicator');
-            syncEl.classList.add('syncing');
-            setTimeout(() => {
-                syncEl.classList.remove('syncing');
-                localStorage.setItem('appPlaylists', JSON.stringify(appState.playlists));
-                localStorage.setItem('likedSongs', JSON.stringify(appState.likedSongs));
-                localStorage.setItem('recentlyPlayed', JSON.stringify(appState.recentlyPlayed));
-            }, 1200);
-        }
-
-        // --- 2. HỆ THỐNG ĐA NGÔN NGỮ ĐA QUỐC GIA (i18n) ---
-        const dict = {
-            vi: {
-                home: "Trang chủ", discover: "Khám phá", library: "Thư viện", playlists: "PLAYLISTS", create_playlist: "Tạo Playlist mới",
-                search_placeholder: "Gõ tên bài hát (Enter để tìm)...", login: "Đăng nhập", hero_title: "Âm nhạc chữa lành tâm hồn",
-                hero_desc: "Khám phá không gian âm nhạc dịu nhẹ với Lavendermony", listen_now: "Nghe Ngay", search_results: "Kết quả tìm kiếm",
-                search_hint: "Hãy gõ tên bài hát vào ô tìm kiếm bên trên...", lyrics_hint: "Nhấn nút Micro ở thanh phát nhạc để xem lời bài hát đồng bộ",
-                no_song: "Chưa có bài hát", login_apple: "Đăng nhập Apple ID", favorites: "Bài hát yêu thích", logout: "Đăng xuất",
-                create_playlist_title: "Tạo Playlist Mới", create_btn: "Tạo ngay", settings: "Cài đặt", language: "Ngôn ngữ", theme_color: "Màu chủ đạo",
-                recently_played: "Nghe gần đây", recommendation: "Gợi ý dành cho bạn", ai_title: "Lavendermony AI Playlist Engine",
-                ai_desc: "Nhập tâm trạng hoặc mong muốn của bạn, AI sẽ tự động thiết kế một danh sách nhạc hoàn hảo.", ai_generate: "Tạo bằng AI",
-                trending_genres: "Xu hướng & Thể loại", add_fav: "Thêm vào yêu thích", add_to: "Thêm vào", recent_empty: "Chưa có bài hát nào được phát gần đây.",
-                fav_empty: "Danh sách yêu thích trống. Hãy nhấn tim bài hát bạn thích!"
-            },
-            en: {
-                home: "Home", discover: "Discover", library: "Library", playlists: "PLAYLISTS", create_playlist: "New Playlist",
-                search_placeholder: "Search songs (Press Enter)...", login: "Login", hero_title: "Music for the Soul",
-                hero_desc: "Discover a gentle musical space with Lavendermony", listen_now: "Listen Now", search_results: "Search Results",
-                search_hint: "Type a song name in the search bar above...", lyrics_hint: "Press Mic button to view synchronized lyrics",
-                no_song: "No track playing", login_apple: "Sign in with Apple ID", favorites: "Favorite Songs", logout: "Log out",
-                create_playlist_title: "Create New Playlist", create_btn: "Create Now", settings: "Settings", language: "Language", theme_color: "Accent Color",
-                recently_played: "Recently Played", recommendation: "Recommended for You", ai_title: "Lavendermony AI Playlist Engine",
-                ai_desc: "Enter your mood, our AI will curate the perfect soundtrack for you.", ai_generate: "Generate with AI",
-                trending_genres: "Trending & Genres", add_fav: "Add to Favorites", add_to: "Add to", recent_empty: "No tracks played recently.",
-                fav_empty: "Your favorites list is empty. Heart some songs!"
-            },
-            fr: {
-                home: "Accueil", discover: "Découvrir", library: "Bibliothèque", playlists: "PLAYLISTS", create_playlist: "Nouvelle Playlist",
-                search_placeholder: "Rechercher des chansons...", login: "Connexion", hero_title: "Musique pour l'Âme",
-                hero_desc: "Découvrez un espace musical doux với Lavendermony", listen_now: "Écouter Maintenant", search_results: "Résultats de Recherche",
-                search_hint: "Tapez un nom de chanson ou utilisez l'IA...", lyrics_hint: "Appuyez sur le bouton Micro pour voir les paroles",
-                no_song: "Aucun morceau en lecture", login_apple: "Se connecter avec Apple ID", favorites: "Titres Favoris", logout: "Déconnexion",
-                create_playlist_title: "Créer une Nouvelle Playlist", create_btn: "Créer", settings: "Paramètres", language: "Langue", theme_color: "Couleur d'accent",
-                recently_played: "Écoutés Récemment", recommendation: "Recommandé pour Vous", ai_title: "Moteur de Playlist IA Lavendermony",
-                ai_desc: "Entrez votre humeur, l'IA créera instantanément une sélection idéale.", ai_generate: "Générer par l'IA",
-                trending_genres: "Tendances & Genres", add_fav: "Ajouter aux Favoris", add_to: "Ajouter à", recent_empty: "Aucune chanson écoutée récemment.",
-                fav_empty: "Votre liste de favoris est vide."
-            },
-            ja: {
-                home: "ホーム", discover: "見つける", library: "ライブラリ", playlists: "プレイリスト", create_playlist: "新規プレイリスト",
-                search_placeholder: "曲名を検索 (Enterで実行)...", login: "ログイン", hero_title: "魂を癒す音楽の空間",
-                hero_desc: "Lavendermonyで穏やかな音楽の世界を発見してください", listen_now: "今すぐ聴く", search_results: "検索結果",
-                search_hint: "上の検索バーに曲名を入力してください...", lyrics_hint: "マイクボタンを押すと、歌詞が同期して表示されます",
-                no_song: "再生中の曲はありません", login_apple: "Apple IDでサインイン", favorites: "お気に入りの曲", logout: "ログアウト",
-                create_playlist_title: "プレイリストを作成", create_btn: "作成する", settings: "設定", language: "言語", theme_color: "アクセントカラー",
-                recently_played: "最近再生した曲", recommendation: "あなたへののおすすめ", ai_title: "Lavendermony AI プレイリスト機能",
-                ai_desc: "気分を入力すると、AIが最適な楽曲リストを構築します。", ai_generate: "AIで生成",
-                trending_genres: "トレンド＆ジャンル", add_fav: "お気に入りに追加", add_to: "追加先", recent_empty: "最近再生した曲はありません。",
-                fav_empty: "お気に入りは空です。"
-            }
-        };
-
-        function changeLanguage(lang) {
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(dict[lang] && dict[lang][key]) el.innerText = dict[lang][key];
-            });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if(dict[lang] && dict[lang][key]) el.placeholder = dict[lang][key];
-            });
-            localStorage.setItem('appLang', lang);
-            document.getElementById('lang-selector').value = lang;
-        }
-
-        function setupLanguages() {
-            const savedLang = localStorage.getItem('appLang') || 'vi';
-            changeLanguage(savedLang);
-            document.getElementById('lang-selector').addEventListener('change', (e) => {
-                changeLanguage(e.target.value);
-                showToast(e.target.value === 'vi' ? "Đã cập nhật ngôn ngữ" : "Language updated");
-            });
-        }
-
-        // --- 3. ĐIỀU PHỐI GIAO DIỆN & MÀU SẮC THÍCH ỨNG ---
-        function setupThemeAndColors() {
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const body = document.body;
-            
-            if (localStorage.getItem('theme') === 'dark' || !localStorage.getItem('theme')) {
-                body.classList.add('dark-mode');
-                themeToggleBtn.innerHTML = "<i class='bx bx-sun'></i>";
-            } else {
-                themeToggleBtn.innerHTML = "<i class='bx bx-moon'></i>";
-            }
-
-            themeToggleBtn.addEventListener('click', () => {
-                body.classList.toggle('dark-mode');
-                localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-                themeToggleBtn.innerHTML = body.classList.contains('dark-mode') ? "<i class='bx bx-sun'></i>" : "<i class='bx bx-moon'></i>";
-            });
-
-            // Accent color setup
-            const colorBtns = document.querySelectorAll('.color-btn');
-            const savedColor = localStorage.getItem('appColor') || '#a87add';
-            document.documentElement.style.setProperty('--primary-color', savedColor);
-            document.documentElement.style.setProperty('--ambient-glow', hexToRgbA(savedColor, 0.35));
-
-            colorBtns.forEach(btn => {
-                if(btn.dataset.color === savedColor) {
-                    colorBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                }
-                btn.addEventListener('click', (e) => {
-                    const color = e.target.dataset.color;
-                    document.documentElement.style.setProperty('--primary-color', color);
-                    document.documentElement.style.setProperty('--ambient-glow', hexToRgbA(color, 0.35));
-                    localStorage.setItem('appColor', color);
-                    colorBtns.forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                });
-            });
-        }
-
-        function hexToRgbA(hex, alpha){
-            let c;
-            if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
-                c= hex.substring(1).split('');
-                if(c.length== 3){ c= [c[0], c[0], c[1], c[1], c[2], c[2]]; }
-                c= '0x'+c.join('');
-                return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+alpha+')';
-            }
-            return 'rgba(168, 122, 221, 0.35)';
-        }
-
-        // Đồng bộ hóa màu sắc thích ứng theo bài hát (Dynamic Ambient Lighting)
-        function adaptUIColorsToSong(songTitle) {
-            // Cơ chế băm chuỗi tự động tạo mã màu sang trọng, mượt mà dựa trên tên bài hát để tránh lỗi CORS hình ảnh
-            let hash = 0;
-            for (let i = 0; i < songTitle.length; i++) {
-                hash = songTitle.charCodeAt(i) + ((hash << 5) - hash);
-            }
-            const colors = [
-                `hsl(${Math.abs(hash % 360)}, 65%, 55%)`,
-                `hsl(${Math.abs((hash + 120) % 360)}, 70%, 50%)`,
-                `hsl(${Math.abs((hash + 240) % 360)}, 60%, 45%)`
-            ];
-
-            // Cập nhật các khối cầu phát sáng nền
-            document.querySelector('.blob-1').style.background = colors[0];
-            document.querySelector('.blob-2').style.background = colors[1];
-            document.querySelector('.blob-3').style.background = colors[2];
-
-            // Cập nhật ánh sáng mờ phía sau Player bar
-            const playerBar = document.querySelector('.music-player');
-            playerBar.style.backgroundColor = document.body.classList.contains('dark-mode') 
-                ? `rgba(${Math.abs(hash)%20 + 15}, ${Math.abs(hash)%15 + 15}, ${Math.abs(hash)%25 + 22}, 0.65)`
-                : `rgba(${Math.abs(hash)%20 + 235}, ${Math.abs(hash)%15 + 235}, ${Math.abs(hash)%25 + 242}, 0.65)`;
-        }
-
-        // --- 4. HỆ THỐNG XỬ LÝ ĐIỀU HƯỚNG TABS VIEW ---
-        window.switchView = function(viewId, element) {
-            document.querySelectorAll('.view-section').forEach(view => {
-                view.classList.remove('active-view');
-            });
-            const targetView = document.getElementById(`view-${viewId}`);
-            if(targetView) {
-                targetView.classList.add('active-view');
-            }
-
-            if(element) {
-                document.querySelectorAll('.sidebar .menu a').forEach(a => a.classList.remove('active'));
-                element.classList.add('active');
-            }
-            
-            // Cuộn mượt lên đầu trang content
-            document.querySelector('.main-content').scrollTop = 0;
-        };
-
-        // --- 5. QUẢN LÝ MODAL LAYER & TABS AUTH THỰC TẾ ---
-        function setupModalsAndTabs() {
-            document.getElementById('open-add-playlist').addEventListener('click', () => toggleCreatePlaylistModal(true));
-            document.getElementById('settings-btn').addEventListener('click', () => toggleSettingsModal(true));
-            document.getElementById('login-btn').addEventListener('click', () => toggleAuthModal(true));
-            document.getElementById('user-profile').addEventListener('click', () => toggleProfileModal(true));
-
-            // Click ngoài đóng modal chuyên nghiệp
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.classList.remove('show-modal');
-                    }
-                });
-            });
-
-            // Gắn sự kiện submit đăng ký/đăng nhập thực tế
-            document.getElementById('login-form').addEventListener('submit', handleActualLogin);
-            document.getElementById('register-form').addEventListener('submit', handleActualRegister);
-            document.getElementById('confirm-create-playlist').addEventListener('click', handleCreatePlaylistSubmit);
-            document.getElementById('logout-btn').addEventListener('click', handleLogout);
-
-            // Cài đặt chuyển đổi công tắc toggle Switch Apple
-            document.querySelectorAll('.toggle-switch').forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    if(this.id === 'toggle-icloud') {
-                        localStorage.setItem('icloud_sync', this.classList.contains('active'));
-                    }
-                    showToast(this.classList.contains('active') ? "Đã bật tính năng" : "Đã tắt tính năng");
-                });
-            });
-        }
-
-        function toggleAuthModal(show) {
-            const modal = document.getElementById('auth-modal');
-            if(show) modal.classList.add('show-modal');
-            else modal.classList.remove('show-modal');
-        }
-        function toggleProfileModal(show) {
-            const modal = document.getElementById('profile-modal');
-            if(show) {
-                document.getElementById('stat-likes').innerText = appState.likedSongs.length;
-                document.getElementById('stat-playlists').innerText = Object.keys(appState.playlists).length;
-                modal.classList.add('show-modal');
-            }
-            else modal.classList.remove('show-modal');
-        }
-        function toggleCreatePlaylistModal(show) {
-            const modal = document.getElementById('create-playlist-modal');
-            if(show) modal.classList.add('show-modal');
-            else modal.classList.remove('show-modal');
-        }
-        function toggleSettingsModal(show) {
-            const modal = document.getElementById('settings-modal');
-            if(show) modal.classList.add('show-modal');
-            else modal.classList.remove('show-modal');
-        }
-
-        window.switchAuthTab = function(tab) {
-            const loginForm = document.getElementById('login-form');
-            const registerForm = document.getElementById('register-form');
-            const loginBtn = document.getElementById('tab-login-btn');
-            const regBtn = document.getElementById('tab-register-btn');
-
-            if(tab === 'login') {
-                loginForm.classList.remove('hidden');
-                registerForm.classList.add('hidden');
-                loginBtn.classList.add('active-tab');
-                regBtn.classList.remove('active-tab');
-            } else {
-                loginForm.classList.add('hidden');
-                registerForm.classList.remove('hidden');
-                loginBtn.classList.remove('active-tab');
-                regBtn.classList.add('active-tab');
-            }
-        };
-
-        // --- CƠ CHẾ XÁC THỰC NGƯỜI DÙNG THỰC TẾ ---
-        function handleActualLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const pass = document.getElementById('login-password').value;
-
-            const user = appState.users.find(u => u.email === email && u.password === pass);
-            if(user) {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('currentUserEmail', email);
-                localStorage.setItem('currentUserName', user.name);
-                checkUserLoginStatus();
-                toggleAuthModal(false);
-                showToast(`Chào mừng trở lại, ${user.name}!`);
-            } else {
-                alert("Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại.");
-            }
-        }
-
-        function handleActualRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value.trim();
-            const email = document.getElementById('reg-email').value.trim();
-            const pass = document.getElementById('reg-password').value;
-
-            if(appState.users.some(u => u.email === email)) {
-                alert("Email này đã tồn tại trên hệ thống Apple ID!");
-                return;
-            }
-
-            const newUser = { email, password: pass, name };
-            appState.users.push(newUser);
-            localStorage.setItem('appUsers', JSON.stringify(appState.users));
-            
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('currentUserEmail', email);
-            localStorage.setItem('currentUserName', name);
-            
-            checkUserLoginStatus();
-            toggleAuthModal(false);
-            showToast("Đăng ký tài khoản thành công!");
-        }
-
-        function checkUserLoginStatus() {
-            const loginBtn = document.getElementById('login-btn');
-            const userProfile = document.getElementById('user-profile');
-            if(localStorage.getItem('isLoggedIn') === 'true') {
-                loginBtn.classList.add('hidden');
-                userProfile.classList.remove('hidden');
-                document.getElementById('display-user-name').innerText = localStorage.getItem('currentUserName');
-                document.getElementById('display-user-email').innerText = localStorage.getItem('currentUserEmail');
-            } else {
-                loginBtn.classList.remove('hidden');
-                userProfile.classList.add('hidden');
-            }
-        }
-
-        function handleLogout() {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('currentUserEmail');
-            localStorage.removeItem('currentUserName');
-            checkUserLoginStatus();
-            toggleProfileModal(false);
-            showToast("Đã đăng xuất tài khoản");
-        }
-
-        // --- TẠO PLAYLIST VÀ QUẢN LÝ ---
-        function handleCreatePlaylistSubmit() {
-            const name = document.getElementById('new-playlist-name').value.trim();
-            if(!name) return;
-
-            const id = 'pl_' + Date.now();
-            appState.playlists[id] = { id, name, songs: [] };
-            
-            renderSidebarPlaylists();
-            renderLibraryAndPlaylists();
-            toggleCreatePlaylistModal(false);
-            document.getElementById('new-playlist-name').value = '';
-            showToast(`Đã tạo playlist "${name}"`);
-            triggerCloudSync();
-        }
-
-        function renderSidebarPlaylists() {
-            const container = document.getElementById('sidebar-playlists-list');
-            container.innerHTML = '';
-            Object.values(appState.playlists).forEach(pl => {
-                const a = document.createElement('a');
-                a.href = "#";
-                a.innerHTML = `<i class='bx bx-list-music'></i> <span>${pl.name}</span>`;
-                a.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    switchView('library');
-                    setTimeout(() => {
-                        const targetSection = document.getElementById(`playlist-sec-${pl.id}`);
-                        if(targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
-                    }, 200);
-                });
-                container.appendChild(a);
-            });
-        }
-
-        // --- 6. CORE MUSIC ENGINE (YOUTUBE LAYER & PLAYBACK CONTROL) ---
-        let ytPlayer;
-        let progressUpdaterInterval;
-        let activeLyricsData = [];
-        let currentLyricsIndex = -1;
-
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        window.onYouTubeIframeAPIReady = function() {
-            ytPlayer = new YT.Player('yt-hidden-player', {
-                height: '200', width: '200', videoId: '', 
-                playerVars: { 'autoplay': 1, 'controls': 0, 'rel': 0, 'playsinline': 1 },
-                events: {
-                    'onReady': onPlayerCoreReady,
-                    'onStateChange': onPlayerCoreStateChange,
-                    'onError': (e) => {
-                        if([101, 150].includes(e.data)) {
-                            showToast("Bài hát bị giới hạn bản quyền. Đang chuyển bài tiếp theo...");
-                            playNextTrack();
-                        }
-                    }
-                }
-            });
-        };
-
-        function onPlayerCoreReady() {
-            ytPlayer.setVolume(70);
-            document.getElementById('play-pause-btn').addEventListener('click', togglePlaybackState);
-            setupPlayerBarsInteraction();
-        }
-
-        function togglePlaybackState() {
-            if (!ytPlayer || !ytPlayer.getPlayerState) return;
-            const state = ytPlayer.getPlayerState();
-            const btn = document.getElementById('play-pause-btn');
-            
-            if (state === YT.PlayerState.PLAYING) {
-                ytPlayer.pauseVideo();
-                btn.innerHTML = "<i class='bx bx-play'></i>";
-                document.getElementById('album-art').classList.remove('playing');
-                clearInterval(progressUpdaterInterval);
-            } else {
-                ytPlayer.playVideo();
-                btn.innerHTML = "<i class='bx bx-pause'></i>";
-                document.getElementById('album-art').classList.add('playing');
-                progressUpdaterInterval = setInterval(syncProgressElements, 500);
-            }
-        }
-
-        function setupPlayerBarsInteraction() {
-            const progWrap = document.getElementById('player-progress-bar-wrap');
-            const progBar = document.getElementById('progress');
-            
-            progWrap.addEventListener('click', (e) => {
-                if (ytPlayer && ytPlayer.getDuration) {
-                    const rect = progWrap.getBoundingClientRect();
-                    const pct = (e.clientX - rect.left) / rect.width;
-                    ytPlayer.seekTo(pct * ytPlayer.getDuration(), true);
-                    progBar.style.width = (pct * 100) + '%';
-                }
-            });
-
-            const volWrap = document.getElementById('player-volume-bar-wrap');
-            const volLevel = document.getElementById('volume-level-bar');
-            const volIcon = document.getElementById('volume-icon-status');
-
-            volWrap.addEventListener('click', (e) => {
-                const rect = volWrap.getBoundingClientRect();
-                let vol = ((e.clientX - rect.left) / rect.width) * 100;
-                vol = Math.max(0, Math.min(100, vol));
-                volLevel.style.width = vol + '%';
-                if(ytPlayer) ytPlayer.setVolume(vol);
-                
-                volIcon.className = vol === 0 ? 'bx bx-volume-mute' : (vol < 50 ? 'bx bx-volume-low' : 'bx bx-volume-full');
-            });
-
-            // Toggle micro mở lời bài hát cinematic màn hình lớn
-            document.getElementById('lyrics-toggle-btn').addEventListener('click', () => {
-                document.getElementById('lyrics-screen').classList.remove('hidden-lyrics');
-            });
-            document.getElementById('close-lyrics').addEventListener('click', () => {
-                document.getElementById('lyrics-screen').classList.add('hidden-lyrics');
-            });
-            
-            // Like button hành động
-            document.getElementById('like-btn').addEventListener('click', () => {
-                if(!appState.currentTrack) return;
-                toggleLikeTrack(appState.currentTrack);
-            });
-
-            // Tải xuống ảo hóa đám mây
-            document.getElementById('download-btn').addEventListener('click', () => {
-                if(!appState.currentTrack) return showToast("Chọn bài hát trước khi tải!");
-                showToast(`Đang tải chất lượng cao mã hóa: ${appState.currentTrack.title}...`);
-                setTimeout(() => showToast("Đã lưu trữ an toàn vào tập tin máy chủ iCloud Drive!"), 2000);
-            });
-
-            // Toggle Shuffle & Repeat cơ bản
-            document.getElementById('shuffle-toggle-btn').addEventListener('click', function() {
-                appState.isShuffle = !appState.isShuffle;
-                this.classList.toggle('active-toggle', appState.isShuffle);
-                showToast(appState.isShuffle ? "Đã kích hoạt Chế độ phát ngẫu nhiên" : "Đã tắt Phát ngẫu nhiên");
-            });
-
-            document.getElementById('repeat-toggle-btn').addEventListener('click', function() {
-                appState.isRepeat = !appState.isRepeat;
-                this.classList.toggle('active-toggle', appState.isRepeat);
-                showToast(appState.isRepeat ? "Đã lặp lại danh sách hiện tại" : "Đã tắt lặp lại");
-            });
-        }
-
-        function syncProgressElements() {
-            if (ytPlayer && ytPlayer.getDuration) {
-                const duration = ytPlayer.getDuration();
-                const current = ytPlayer.getCurrentTime();
-                if (duration > 0) {
-                    document.getElementById('progress').style.width = (current / duration * 100) + "%";
-                    document.querySelector('.time.current').textContent = formatSecondsToTime(current);
-                    document.querySelector('.time.total').textContent = formatSecondsToTime(duration);
-                    
-                    // Xử lý cuộn/highlight lời bài hát điện ảnh realtime dựa theo giây phát
-                    updateRealtimeLyricsScrolling(current);
-                }
-            }
-        }
-
-        function onPlayerCoreStateChange(event) {
-            const btn = document.getElementById('play-pause-btn');
-            if (event.data === YT.PlayerState.ENDED) {
-                btn.innerHTML = "<i class='bx bx-play'></i>";
-                document.getElementById('album-art').classList.remove('playing');
-                clearInterval(progressUpdaterInterval);
-                if(appState.isRepeat) {
-                    ytPlayer.playVideo();
-                } else {
-                    playNextTrack();
-                }
-            } else if (event.data === YT.PlayerState.PLAYING) {
-                btn.innerHTML = "<i class='bx bx-pause'></i>";
-                document.getElementById('album-art').classList.add('playing');
-                clearInterval(progressUpdaterInterval);
-                progressUpdaterInterval = setInterval(syncProgressElements, 500);
-            }
-        }
-
-        function formatSecondsToTime(sec) {
-            if (isNaN(sec) || sec < 0) return "0:00";
-            return Math.floor(sec / 60) + ":" + (Math.floor(sec % 60).toString().padStart(2, '0'));
-        }
-
-        // --- CƠ CHẾ PHÁT BÀI HÁT MỚI TOÀN DIỆN ---
-        window.playTrack = function(id, title, artist, thumb) {
-            const track = { id, title, artist, thumb };
-            appState.currentTrack = track;
-
-            // Đưa bài hát vào hàng đợi nếu chưa tồn tại
-            if(!appState.playbackQueue.some(t => t.id === id)) {
-                appState.playbackQueue.push(track);
-            }
-            appState.currentQueueIndex = appState.playbackQueue.findIndex(t => t.id === id);
-
-            // Ghi nhận lịch sử nghe gần đây
-            appState.recentlyPlayed = appState.recentlyPlayed.filter(t => t.id !== id);
-            appState.recentlyPlayed.unshift(track);
-            if(appState.recentlyPlayed.length > 8) appState.recentlyPlayed.pop();
-            renderRecentlyPlayed();
-
-            // Cập nhật giao diện thanh Player
-            document.querySelector('.song-details h4').innerText = title;
-            document.querySelector('.song-details p').innerText = artist;
-            document.getElementById('album-art').style.backgroundImage = `url('${thumb}')`;
-            document.getElementById('lyrics-bg').style.backgroundImage = `url('${thumb}')`;
-
-            // Kiểm tra trạng thái yêu thích để chuyển đổi Icon tim hồng
-            updateLikeButtonUI(id);
-
-            // Tải bài hát vào iFrame
-            if (ytPlayer && ytPlayer.loadVideoById) {
-                ytPlayer.loadVideoById(id);
-                document.getElementById('play-pause-btn').innerHTML = "<i class='bx bx-pause'></i>";
-                document.getElementById('album-art').classList.add('playing');
-            }
-
-            // Đồng bộ hiệu ứng màu nền động thích ứng
-            adaptUIColorsToSong(title);
-
-            // Kéo lời bài hát từ API đồng bộ
-            fetchCinematicLyrics(title, artist);
-            triggerCloudSync();
-        };
-
-        window.playNextTrack = function() {
-            if (appState.playbackQueue.length === 0) return;
-            if (appState.isShuffle) {
-                let rand = Math.floor(Math.random() * appState.playbackQueue.length);
-                appState.currentQueueIndex = rand;
-            } else {
-                appState.currentQueueIndex = (appState.currentQueueIndex + 1) % appState.playbackQueue.length;
-            }
-            const nextTrack = appState.playbackQueue[appState.currentQueueIndex];
-            if(nextTrack) playTrack(nextTrack.id, nextTrack.title, nextTrack.artist, nextTrack.thumb);
-        };
-
-        window.playPrevTrack = function() {
-            if (appState.playbackQueue.length === 0) return;
-            appState.currentQueueIndex = (appState.currentQueueIndex - 1 + appState.playbackQueue.length) % appState.playbackQueue.length;
-            const prevTrack = appState.playbackQueue[appState.currentQueueIndex];
-            if(prevTrack) playTrack(prevTrack.id, prevTrack.title, prevTrack.artist, prevTrack.thumb);
-        };
-
-        window.playTrendingHero = function() {
-            // Phát bài hát đầu tiên trong gợi ý
-            const track = DEFAULT_RECOMMENDATIONS[0];
-            playTrack(track.id, track.title, track.artist, track.thumb);
-        };
-
-        // --- 7. CINEMATIC REALTIME LYRICS ENGINE (DEPTH FOCUS & TIME SYNC) ---
-        async function fetchCinematicLyrics(title, artist) {
-            const lyricsBox = document.getElementById('lyrics-text');
-            lyricsBox.innerHTML = '<p class="lyrics-placeholder">Đang giải mã lời bài hát thời gian thực từ LRCLIB...</p>';
-            activeLyricsData = [];
-            currentLyricsIndex = -1;
-
-            // Làm sạch chuỗi tìm kiếm lyrics để tăng độ chính xác của API
-            const cleanTitle = title.replace(/\[.*?\]|\(.*?\)|official audio|official video|lyric video/gi, '').split('-')[0].trim();
-            
-            try {
-                const res = await fetch(`https://lrclib.net/api/search?q=${encodeURIComponent(cleanTitle + ' ' + artist)}`);
-                const data = await res.json();
-                
-                if (data && data.length > 0) {
-                    const match = data[0];
-                    // Ưu tiên sử dụng lời bài hát có mốc thời gian chi tiết (syncedLyrics)
-                    if(match.syncedLyrics) {
-                        parseSyncedLyrics(match.syncedLyrics);
-                    } else if(match.plainLyrics) {
-                        parsePlainLyrics(match.plainLyrics);
-                    } else {
-                        renderNoLyricsAvailable();
-                    }
-                } else {
-                    renderNoLyricsAvailable();
-                }
-            } catch (err) {
-                lyricsBox.innerHTML = '<p class="lyrics-placeholder">Không kết nối được cổng dữ liệu lời bài hát quốc tế.</p>';
-            }
-        }
-
-        function parseSyncedLyrics(lrcText) {
-            const lines = lrcText.split('\n');
-            const lyricsBox = document.getElementById('lyrics-text');
-            lyricsBox.innerHTML = '';
-            activeLyricsData = [];
-
-            // Biểu thức chính quy giải mã cấu trúc LRC [mm:ss.xx]
-            const timeReg = /\[(\d+):(\d+)(?:\.(\d+))?\]/;
-
-            lines.forEach((line, index) => {
-                const match = timeReg.exec(line);
-                if(match) {
-                    const min = parseInt(match[1]);
-                    const sec = parseInt(match[2]);
-                    const ms = match[3] ? parseInt(match[3]) : 0;
-                    const totalTime = (min * 60) + sec + (ms / 100);
-                    const text = line.replace(timeReg, '').trim();
-
-                    if(text) {
-                        activeLyricsData.push({ time: totalTime, text: text });
-                        const p = document.createElement('p');
-                        p.id = `lrc-line-${activeLyricsData.length - 1}`;
-                        p.innerText = text;
-                        // Click nhảy đến thời gian bài hát cực thông minh
-                        p.addEventListener('click', () => {
-                            if(ytPlayer && ytPlayer.seekTo) ytPlayer.seekTo(totalTime, true);
-                        });
-                        lyricsBox.appendChild(p);
-                    }
-                }
-            });
-
-            if(activeLyricsData.length === 0) {
-                parsePlainLyrics(lrcText);
-            }
-        }
-
-        function parsePlainLyrics(plainText) {
-            const lyricsBox = document.getElementById('lyrics-text');
-            lyricsBox.innerHTML = '';
-            const lines = plainText.split('\n').filter(l => l.trim());
-            lines.forEach(line => {
-                const p = document.createElement('p');
-                p.className = 'active'; // Hiện tất cả ở chế độ chữ sáng nếu không có time-sync
-                p.innerText = line;
-                p.style.filter = "none";
-                p.style.transform = "none";
-                p.style.opacity = "1";
-                lyricsBox.appendChild(p);
-            });
-        }
-
-        function renderNoLyricsAvailable() {
-            document.getElementById('lyrics-text').innerHTML = '<p class="lyrics-placeholder">Hệ thống nhạc số Lavendermony đang cập nhật lời karaoke cho bài hát này.</p>';
-        }
-
-        // Trung tâm xử lý cuộn chữ điện ảnh, tạo chiều sâu thị giác (Center Focus, Depth Fade)
-        function updateRealtimeLyricsScrolling(currentTime) {
-            if(activeLyricsData.length === 0) return;
-
-            let targetIndex = -1;
-            for(let i = 0; i < activeLyricsData.length; i++) {
-                if(currentTime >= activeLyricsData[i].time) {
-                    targetIndex = i;
-                } else {
-                    break;
-                }
-            }
-
-            if(targetIndex !== -1 && targetIndex !== currentLyricsIndex) {
-                currentLyricsIndex = targetIndex;
-                
-                // Cập nhật thuộc tính thẩm mỹ cho từng dòng chữ dựa trên khoảng cách tới dòng active
-                activeLyricsData.forEach((item, idx) => {
-                    const lineEl = document.getElementById(`lrc-line-${idx}`);
-                    if(!lineEl) return;
-
-                    const distance = idx - currentLyricsIndex;
-
-                    if(distance === 0) {
-                        // Dòng đang hát: Sáng rõ, phóng to, đẩy về phía trước màn hình
-                        lineEl.className = 'active';
-                        lineEl.style.opacity = "1";
-                        lineEl.style.filter = "blur(0px)";
-                        lineEl.style.transform = "scale(1.06) translateZ(20px)";
-                    } else {
-                        lineEl.className = '';
-                        // Các dòng càng xa càng mờ dần và thu nhỏ về phía sau (Depth movement)
-                        const absDist = Math.abs(distance);
-                        const opacity = Math.max(0.08, 0.35 - (absDist * 0.08));
-                        const blur = Math.min(4, absDist * 0.8);
-                        const scale = Math.max(0.85, 0.96 - (absDist * 0.02));
-                        const zTranslation = -20 * absDist;
-
-                        lineEl.style.opacity = opacity;
-                        lineEl.style.filter = `blur(${blur}px)`;
-                        lineEl.style.transform = `scale(${scale}) translateZ(${zTranslation}px)`;
-                    }
-                });
-
-                // Tự động cuộn mượt đưa dòng hiện tại vào CHÍNH GIỮA màn hình (Center Focus)
-                const activeLineEl = document.getElementById(`lrc-line-${currentLyricsIndex}`);
-                const scrollContainer = document.getElementById('lyrics-scroll-container');
-                if(activeLineEl && scrollContainer) {
-                    const containerHeight = scrollContainer.clientHeight;
-                    const elOffsetTop = activeLineEl.offsetTop;
-                    const elHeight = activeLineEl.clientHeight;
-                    
-                    scrollContainer.scrollTo({
-                        top: elOffsetTop - (containerHeight / 2) + (elHeight / 2),
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        }
-
-        // --- 8. KHÔNG GIAN TÌM KIẾM NHẠC & THUẬT TOÁN AI PLAYLIST ENGINE ---
-        const searchInput = document.getElementById('search-input');
-        
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && this.value.trim() !== '') {
-                triggerSearchAPI(this.value.trim());
-                switchView('discover'); // Chuyển hướng màn hình trực quan cho người dùng
-            }
-        });
-
-        window.triggerQuickSearch = function(keyword) {
-            document.getElementById('search-input').value = keyword;
-            triggerSearchAPI(keyword);
-        };
-
-        async function triggerSearchAPI(keyword) {
-            const grid = document.getElementById('search-results-grid');
-            grid.innerHTML = '';
-            
-            // Hiện cấu trúc hiệu ứng Shimmer cao cấp
-            for (let i = 0; i < 6; i++) {
-                grid.innerHTML += `
-                    <div class="skeleton-card">
-                        <div class="skeleton-thumb"></div>
-                        <div class="skeleton-line"></div>
-                        <div class="skeleton-line sub"></div>
-                    </div>
-                `;
-            }
-
-            try {
-                const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(keyword + ' official audio')}&type=video&key=${YOUTUBE_API_KEY}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                grid.innerHTML = '';
-
-                if (data.error) {
-                    grid.innerHTML = `<p style="color:#ff3b30; font-weight:600;">Lỗi kết nối API YouTube. Vui lòng kiểm tra lại API Key.</p>`;
-                    return;
-                }
-                if (!data.items || data.items.length === 0) {
-                    grid.innerHTML = '<p style="color:var(--text-secondary);">Không tìm thấy sản phẩm âm nhạc nào phù hợp.</p>';
-                    return;
-                }
-
-                // Đưa các kết quả tìm thấy vào Queue phát để chuyển bài mượt mà
-                appState.playbackQueue = [];
-
-                data.items.forEach(item => {
-                    const id = item.id.videoId;
-                    const title = item.snippet.title;
-                    const artist = item.snippet.channelTitle;
-                    const thumb = item.snippet.thumbnails.high.url;
-
-                    appState.playbackQueue.push({ id, title, artist, thumb });
-
-                    // Tạo card nhạc
-                    const card = document.createElement('div');
-                    card.className = 'song-card glass';
-                    card.innerHTML = `
-                        <div class="song-img" style="background-image: url('${thumb}');"></div>
-                        <button class="card-actions-btn" onclick="openSongContextMenu(event, '${id}')"><i class='bx bx-dots-vertical-rounded'></i></button>
-                        <div class="card-play-overlay"><i class='bx bx-play-circle'></i></div>
-                        <h4>${title}</h4>
-                        <p>${artist}</p>
-                    `;
-                    
-                    // Sự kiện click phát nhạc
-                    card.addEventListener('click', (e) => {
-                        if(e.target.closest('.card-actions-btn')) return; // Tránh xung đột nút tùy chọn thêm playlist
-                        playTrack(id, title, artist, thumb);
-                    });
-
-                    grid.appendChild(card);
-                });
-            } catch (err) {
-                grid.innerHTML = '<p style="color:#ff3b30; font-weight:600;">Mất tín hiệu kết nối mạng cục bộ.</p>';
-            }
-        }
-
-        // PHẦN PHÁT TRIỂN THUẬT TOÁN AI PLAYLIST ENGINE GIẢ LẬP ĐIỆN ẢNH
-        document.getElementById('ai-generate-btn').addEventListener('click', () => {
-            const prompt = document.getElementById('ai-mood-input').value.trim();
-            if(!prompt) return showToast("Hãy nhập mong muốn âm nhạc của bạn để AI phân tích!");
-
-            showToast("Trí tuệ nhân tạo Lavendermony AI đang phân tích dữ liệu cảm xúc...");
-            
-            setTimeout(() => {
-                showToast("Đang lập danh mục bài hát thích ứng theo tâm trạng...");
-                // Kích hoạt tìm kiếm thông minh từ khóa dựa trên phân tích ngôn ngữ
-                triggerQuickSearch(prompt + ' lofi acoustic long mix');
-            }, 1500);
-        });
-
-        // --- 9. QUẢN LÝ BÀI HÁT YÊU THÍCH VÀ PLAYLISTS (MỤC THƯ VIỆN) ---
-        function updateLikeButtonUI(trackId) {
-            const icon = document.getElementById('like-btn').querySelector('i');
-            if(appState.likedSongs.some(t => t.id === trackId)) {
-                icon.className = 'bx bxs-heart';
-                icon.style.color = '#ff2d55';
-            } else {
-                icon.className = 'bx bx-heart';
-                icon.style.color = 'var(--text-secondary)';
-            }
-        }
-
-        function toggleLikeTrack(track) {
-            const index = appState.likedSongs.findIndex(t => t.id === track.id);
-            if(index > -1) {
-                appState.likedSongs.splice(index, 1);
-                showToast("Đã xóa khỏi danh sách yêu thích");
-            } else {
-                appState.likedSongs.push(track);
-                showToast("Đã lưu vào Thư viện yêu thích");
-            }
-            updateLikeButtonUI(track.id);
-            renderLibraryAndPlaylists();
-            triggerCloudSync();
-        }
-
-        // --- CƠ CHẾ CONTEXT MENU THÊM VÀO PLAYLIST LINH HOẠT ---
-        window.openSongContextMenu = function(e, trackId) {
-            e.preventDefault();
-            e.stopPropagation();
-            appState.currentContextTrackId = trackId;
-
-            const menu = document.getElementById('song-context-menu');
-            const anchor = document.getElementById('context-playlists-anchor');
-            anchor.innerHTML = '';
-
-            // Render danh sách các playlist hiện có vào menu ngữ cảnh
-            Object.values(appState.playlists).forEach(pl => {
-                const item = document.createElement('div');
-                item.className = 'context-menu-item';
-                item.innerHTML = `<i class='bx bx-plus-circle'></i> <span>Thêm vào: ${pl.name}</span>`;
-                item.onclick = () => addTrackToSpecificPlaylist(trackId, pl.id);
-                anchor.appendChild(item);
-            });
-
-            menu.style.top = `${e.clientY} - 10px`;
-            menu.style.left = `${e.clientX - 210}px`;
-            menu.classList.add('show');
-        };
-
-        // Đóng khẩn cấp các Context menu khi click ra ngoài
-        document.addEventListener('click', () => {
-            document.getElementById('song-context-menu').classList.remove('show');
-        });
-
-        function addCurrentContextToFavorites() {
-            const track = appState.playbackQueue.find(t => t.id === appState.currentContextTrackId);
-            if(track) toggleLikeTrack(track);
-        }
-
-        function addTrackToSpecificPlaylist(trackId, playlistId) {
-            const track = appState.playbackQueue.find(t => t.id === trackId);
-            if(!track) return;
-
-            if(appState.playlists[playlistId].songs.some(s => s.id === trackId)) {
-                return showToast("Bài hát này đã có sẵn trong playlist.");
-            }
-
-            appState.playlists[playlistId].songs.push(track);
-            showToast(`Đã thêm vào mục "${appState.playlists[playlistId].name}"`);
-            renderLibraryAndPlaylists();
-            triggerCloudSync();
-        }
-
-        // KẾT XUẤT TOÀN BỘ DANH SÁCH NHẠC TRONG THƯ VIỆN
-        function renderLibraryAndPlaylists() {
-            // 1. Render bài hát yêu thích
-            const favGrid = document.getElementById('favorites-songs-grid');
-            favGrid.innerHTML = '';
-            if(appState.likedSongs.length === 0) {
-                favGrid.innerHTML = '<p style="color: var(--text-secondary); grid-column: 1/-1;" data-i18n="fav_empty">Danh sách yêu thích trống. Hãy nhấn tim bài hát bạn thích!</p>';
-            } else {
-                appState.likedSongs.forEach(track => {
-                    favGrid.appendChild(createStandardTrackCardHTML(track));
-                });
-            }
-
-            // 2. Render động các phân hệ Playlist tùy biến
-            const dynContainer = document.getElementById('dynamic-playlist-sections');
-            dynContainer.innerHTML = '';
-
-            Object.values(appState.playlists).forEach(pl => {
-                const sec = document.createElement('div');
-                sec.id = `playlist-sec-${pl.id}`;
-                sec.innerHTML = `
-                    <div class="section-title">
-                        <span>${pl.name} (${pl.songs.length})</span>
-                    </div>
-                    <div class="grid-songs" id="grid-pl-${pl.id}"></div>
-                `;
-                dynContainer.appendChild(sec);
-
-                const plGrid = document.getElementById(`grid-pl-${pl.id}`);
-                if(pl.songs.length === 0) {
-                    plGrid.innerHTML = '<p style="color:var(--text-secondary); grid-column: 1/-1;">Chưa có bài hát nào trong playlist này.</p>';
-                } else {
-                    pl.songs.forEach(track => {
-                        plGrid.appendChild(createStandardTrackCardHTML(track));
-                    });
-                }
-            });
-        }
-
-        function createStandardTrackCardHTML(track) {
-            const card = document.createElement('div');
-            card.className = 'song-card glass';
-            card.innerHTML = `
-                <div class="song-img" style="background-image: url('${track.thumb}');"></div>
-                <div class="card-play-overlay"><i class='bx bx-play-circle'></i></div>
-                <h4>${track.title}</h4>
-                <p>${track.artist}</p>
-            `;
-            card.addEventListener('click', () => {
-                playTrack(track.id, track.title, track.artist, track.thumb);
-            });
-            return card;
-        }
-
-        function renderRecommendations() {
-            const grid = document.getElementById('recommendations-grid');
-            grid.innerHTML = '';
-            DEFAULT_RECOMMENDATIONS.forEach(track => {
-                grid.appendChild(createStandardTrackCardHTML(track));
-            });
-        }
-
-        function renderRecentlyPlayed() {
-            const grid = document.getElementById('recently-played-grid');
-            grid.innerHTML = '';
-            if(appState.recentlyPlayed.length === 0) {
-                grid.innerHTML = '<p style="color: var(--text-secondary); grid-column: 1/-1;" data-i18n="recent_empty">Chưa có bài hát nào được phát gần đây.</p>';
-            } else {
-                appState.recentlyPlayed.forEach(track => {
-                    grid.appendChild(createStandardTrackCardHTML(track));
-                });
-            }
-        }
-
-        // --- 10. PREMIUM PROCEDURAL AUDIO VISUALIZER ENGINE ---
-        function setupVisualizer() {
-            const canvas = document.getElementById('player-visualizer');
-            const ctx = canvas.getContext('2d');
-            
-            function resizeCanvas() {
-                canvas.width = canvas.parentElement.clientWidth;
-                canvas.height = canvas.parentElement.clientHeight;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-
-            // Hệ thống trực quan hóa sóng âm giả lập mượt mà không gây quá tải CPU (Beat Pulse effect)
-            let waves = [
-                { amplitude: 12, frequency: 0.015, speed: 0.04, phase: 0, color: 'rgba(168, 122, 221, 0.12)' },
-                { amplitude: 18, frequency: 0.008, speed: 0.02, phase: 2, color: 'rgba(0, 122, 255, 0.08)' },
-                { amplitude: 8, frequency: 0.025, speed: 0.06, phase: 4, color: 'rgba(255, 45, 85, 0.06)' }
-            ];
-
-            function animateVisualizer() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                let isPlaying = false;
-                if(ytPlayer && ytPlayer.getPlayerState) {
-                    isPlaying = ytPlayer.getPlayerState() === YT.PlayerState.PLAYING;
-                }
-
-                waves.forEach(wave => {
-                    ctx.beginPath();
-                    ctx.fillStyle = wave.color;
-
-                    // Nếu nhạc đang phát, các dải tần sóng sẽ nhấp nhô sống động theo nhịp độ thuật toán
-                    if(isPlaying) {
-                        wave.phase += wave.speed;
-                        // Phóng đại biên độ giả lập tiếng Bass nẩy theo chu kỳ thời gian thực
-                        wave.actualAmplitude = wave.amplitude + Math.sin(Date.now() / 200) * 4;
-                    } else {
-                        // Nhạc tắt thì sóng phẳng dần tinh tế
-                        wave.actualAmplitude = lerp(wave.actualAmplitude || wave.amplitude, 0, 0.05);
-                    }
-
-                    ctx.moveTo(0, canvas.height);
-                    for (let x = 0; x < canvas.width; x++) {
-                        let y = canvas.height / 2 + Math.sin(x * wave.frequency + wave.phase) * wave.actualAmplitude;
-                        ctx.lineTo(x, y);
-                    }
-                    ctx.lineTo(canvas.width, canvas.height);
-                    ctx.closePath();
-                    ctx.fill();
-                });
-
-                requestAnimationFrame(animateVisualizer);
-            }
-            animateVisualizer();
-        }
-
-        function lerp(start, end, amt) {
-            return (1 - amt) * start + amt * end;
-        }
-
-        function setupGlobalEventHandlers() {
-            // Thao tác bảo vệ thiết bị, cảnh báo File protocol nguyên bản
-            if(window.location.protocol === 'file:') {
-                setTimeout(() => {
-                    showToast("Môi trường Tối Ưu: Hãy chạy ứng dụng qua máy chủ Live Server!");
-                }, 1800);
-            }
-        }
-    </script>
+    <div id="profile-modal" class="modal">
+        <div class="modal-content glass" style="text-align: center; max-width: 350px; width: 90%; padding: 30px;">
+            <span class="close-btn modal-close glass" onclick="toggleProfileModal(false)">&times;</span>
+            <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" style="width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-color); margin-bottom: 15px; box-shadow: 0 5px 15px var(--ambient-glow);">
+            <h2 id="display-user-name" style="font-weight: 700;">Người Dùng</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 25px;" id="display-user-email">user@email.com</p>
+            <button class="submit-btn glass" id="logout-btn" style="background: rgba(239, 68, 68, 0.8);"><i class='bx bx-log-out'></i> Đăng xuất</button>
+        </div>
+    </div>
+
+    <div id="create-playlist-modal" class="modal">
+        <div class="modal-content glass" style="max-width: 400px; width: 90%; padding: 30px;">
+            <span class="close-btn modal-close glass" onclick="toggleCreatePlaylistModal(false)">&times;</span>
+            <div id="modal-mode-picker" class="hidden">
+                <h3 style="margin-bottom: 15px;" data-i18n="add_to_playlist">Thêm vào Playlist</h3>
+                <div class="modal-playlists-list" id="modal-playlists-picker-list"></div>
+                <div style="border-top:1px solid var(--surface-border); margin-top:15px; padding-top:15px;">
+                    <button class="add-playlist glass" onclick="switchPlaylistModalToCreate()"><i class='bx bx-plus'></i> Tạo Playlist Mới</button>
+                </div>
+            </div>
+            <div id="modal-mode-create">
+                <h3 style="margin-bottom: 20px;">Tạo Playlist</h3>
+                <div class="floating-input-group">
+                    <input type="text" id="new-playlist-name" required placeholder=" ">
+                    <label><i class='bx bx-list-plus'></i> Tên playlist mới...</label>
+                </div>
+                <button id="confirm-create-playlist" class="submit-btn glass">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="yt-hidden-player" style="position: absolute; top: -9999px; left: -9999px; opacity: 0; pointer-events: none;"></div>
+    
+    <script src="app.js"></script>
 </body>
 </html>
