@@ -899,7 +899,20 @@
         }, 200);
     });
 </script>
+<div id="v15-ambient-depth-layer" style="position: fixed; inset: 0; pointer-events: none; z-index: 9999; mix-blend-mode: overlay; background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.15) 150%);"></div>
+<!-- === PATCH UI V2: SIDEBAR UPGRADE === -->
+<!-- Divider Gradient -->
+<div class="divider-gradient" style="height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); margin: 15px 20px;"></div>
 
+<!-- User Mini Profile -->
+<div class="user-mini-profile">
+    <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" class="mini-avatar">
+    <div class="mini-info">
+        <span class="mini-name">Huỳnh Nguyên Đạt</span>
+        <span class="mini-status">PRO Member</span>
+    </div>
+    <i class='bx bx-cog profile-settings-icon'></i>
+</div>
 <template id="v6-settings-templates">
     <div id="settings-sec-performance" class="settings-section-block">
         <h2>Hiệu suất & GPU</h2>

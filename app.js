@@ -2812,3 +2812,114 @@ searchBar.addEventListener('mouseenter', () => {
 searchBar.addEventListener('mouseleave', () => {
     searchBar.style.transform = 'scale(1)';
 });
+// =======================================================================
+// LAVENDERMONY V15 - UI/UX REFINEMENT ENGINE (APPEND ONLY)
+// =======================================================================
+(function initV15Refinements() {
+    console.log("V15 UI/UX Cinematic Depth & Search Engine Initialized.");
+
+    // 1. Tăng cường chiều sâu khi Focus vào Thanh tìm kiếm (Dimming Effect)
+    const searchInput = document.getElementById('search-input');
+    const mainContent = document.querySelector('.main-content');
+
+    if(searchInput && mainContent) {
+        searchInput.addEventListener('focus', () => {
+            // Làm mờ mượt mà các component bên dưới để dồn sự chú ý vào ô Search
+            const elementsToBlur = document.querySelectorAll('.view-section');
+            elementsToBlur.forEach(el => {
+                el.style.filter = 'blur(10px) brightness(0.85)';
+                el.style.transition = 'filter 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+            });
+        });
+
+        searchInput.addEventListener('blur', () => {
+            const elementsToBlur = document.querySelectorAll('.view-section');
+            elementsToBlur.forEach(el => {
+                el.style.filter = 'none';
+            });
+        });
+    }
+
+    // 2. Tiêm Parallax 3D mượt mà cho Song Cards (Thay thế Transform cũ)
+    const initAdvancedCardDepth = () => {
+        const cards = document.querySelectorAll('.song-card, .bento-playlist-card');
+        cards.forEach(card => {
+            // Đánh dấu để tránh gán sự kiện nhiều lần
+            if(card.hasAttribute('data-v15-depth')) return;
+            card.setAttribute('data-v15-depth', 'true');
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; 
+                const y = e.clientY - rect.top;  
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Thuật toán xoay nhẹ góc nhìn (tối đa 6 độ)
+                const rotateX = ((y - centerY) / centerY) * -6; 
+                const rotateY = ((x - centerX) / centerX) * 6;
+
+                card.style.transform = `perspective(1200px) scale(1.03) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1200px) scale(1) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+            });
+        });
+    };
+
+    // Chạy Engine và gắn MutationObserver để quét các thẻ nhạc mới được render (Search/Khám phá)
+    setTimeout(initAdvancedCardDepth, 1500);
+    const observer = new MutationObserver((mutations) => {
+        let shouldUpdate = false;
+        mutations.forEach(m => { if(m.addedNodes.length > 0) shouldUpdate = true; });
+        if(shouldUpdate) setTimeout(initAdvancedCardDepth, 300);
+    });
+    
+    const container = document.querySelector('.main-content');
+    if(container) observer.observe(container, { childList: true, subtree: true });
+})();
+// =======================================================================
+// LAVENDERMONY V12 - UI UPGRADE PATCH (APPEND ONLY)
+// =======================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Tự động áp dụng Icon Circle Background cho Setting Titles
+    enhanceSettingsIcons();
+    
+    // 2. Kích hoạt nút User Mini Profile mở Modal Settings Tài Khoản
+    const miniProfile = document.querySelector('.user-mini-profile');
+    if (miniProfile && typeof window.toggleSettingsModal === 'function') {
+        miniProfile.addEventListener('click', () => {
+            window.toggleSettingsModal(true);
+            // Tự động chuyển qua tab Tài khoản (nếu có id là v11-taikhoan)
+            const accountTab = document.querySelector('.settings-menu-item[data-target="v11-taikhoan"]');
+            if(accountTab) accountTab.click();
+        });
+    }
+});
+
+function enhanceSettingsIcons() {
+    // Bọc icon trong form Settings thành dạng hình tròn (Apple Style)
+    const settingHeaders = document.querySelectorAll('.v10-meta h4, .settings-card h4');
+    
+    settingHeaders.forEach(h4 => {
+        const icon = h4.querySelector('i');
+        if (icon && !icon.classList.contains('circle-styled')) {
+            icon.classList.add('circle-styled');
+            // Bơm CSS nội tuyến siêu mạnh để tách icon ra khỏi text
+            icon.style.cssText = `
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 34px;
+                height: 34px;
+                background: rgba(168, 122, 221, 0.15);
+                color: var(--primary-color, #a87add);
+                border-radius: 50%;
+                font-size: 18px;
+            `;
+        }
+    });
+}

@@ -2485,3 +2485,292 @@ body.dark-mode .mouse-glow-card::before {
     background: radial-gradient(circle closest-side, rgba(255,255,255,0.08), transparent);
 }
 .mouse-glow-card:hover::before { opacity: 1; }
+/* ======================================================================= */
+/* LAVENDERMONY V15 - ULTIMATE UI/UX & SPATIAL REFINEMENT (APPEND ONLY)    */
+/* ======================================================================= */
+
+/* 1. KHOẢNG TRẮNG & BREATHING SPACE */
+.main-content {
+    padding: 50px 60px !important; /* Mở rộng không gian thở 2 bên */
+}
+.section-title {
+    margin: 55px 0 25px 0 !important; /* Đẩy xa component trên, tạo nhóm với component dưới */
+}
+.grid-songs {
+    gap: 32px !important; /* Giãn cách các card rộng rãi hơn */
+    padding-bottom: 40px !important;
+}
+
+/* 2. THANH TÌM KIẾM NỔI BẬT & CÓ CHIỀU SÂU */
+.search-container {
+    max-width: 520px !important;
+    margin: 0 auto !important; /* Căn giữa tạo điểm nhấn */
+}
+.search-bar.animated-border {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    padding: 16px 28px !important;
+}
+body.dark-mode .search-bar.animated-border {
+    background: rgba(0, 0, 0, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.search-bar.animated-border:focus-within {
+    box-shadow: 0 0 0 4px rgba(168, 122, 221, 0.2), 0 20px 50px rgba(0, 0, 0, 0.25) !important;
+    border-color: var(--primary-color) !important;
+    transform: scale(1.03) translateY(-2px) !important;
+    background: var(--surface) !important;
+}
+.search-icon, .voice-search-icon {
+    font-size: 22px !important;
+    opacity: 0.6;
+    transition: all 0.3s ease !important;
+}
+.search-bar.animated-border:focus-within .search-icon {
+    opacity: 1;
+    color: var(--primary-color) !important;
+    filter: drop-shadow(0 0 8px var(--primary-color));
+}
+
+/* 3. FONT HIERARCHY MẠNH MẼ */
+.section-title span, h1, h2 {
+    font-weight: 900 !important;
+    letter-spacing: -0.04em !important;
+}
+.section-title span {
+    font-size: 28px !important;
+}
+h3, .song-card h4, .settings-label h4, .queue-item h5 {
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+}
+p, .song-card p, .settings-label p, .queue-item p, .bento-playlist-card p {
+    font-weight: 500 !important;
+    opacity: 0.6 !important; /* Làm mờ text phụ để text chính nổi bật */
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+/* 4. CHIỀU SÂU UI (GLASSMORPHISM & HOVER SCALE) */
+.song-card, .bento-playlist-card, .settings-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 24px !important;
+    padding: 20px !important;
+}
+body.dark-mode .song-card, body.dark-mode .bento-playlist-card, body.dark-mode .settings-card {
+    background: linear-gradient(135deg, rgba(30,30,40,0.5) 0%, rgba(10,10,15,0.7) 100%) !important;
+    border-color: rgba(255,255,255,0.05) !important;
+}
+.song-card:hover, .bento-playlist-card:hover {
+    transform: translateY(-8px) scale(1.03) !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255,255,255,0.2) !important;
+    border-color: rgba(168, 122, 221, 0.4) !important;
+}
+
+/* 5. OVERHAUL BẢNG SETTINGS (CHUẨN APPLE MUSIC / SPOTIFY) */
+.settings-body-content {
+    gap: 30px !important;
+}
+.settings-card {
+    padding: 24px 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06) !important;
+}
+.settings-row {
+    padding: 20px 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    align-items: center !important;
+}
+body.dark-mode .settings-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+}
+.settings-row:last-child {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+}
+.settings-row:first-child {
+    padding-top: 0 !important;
+}
+.settings-label {
+    flex: 1 !important;
+    padding-right: 20px !important;
+}
+.settings-label h4 {
+    font-size: 17px !important;
+    color: var(--text-primary) !important;
+    margin-bottom: 6px !important;
+}
+
+/* Giao diện Toggle Switch mượt mà chuẩn iOS */
+.toggle-switch {
+    width: 54px !important;
+    height: 32px !important;
+    border-radius: 32px !important;
+    background: rgba(120, 120, 128, 0.3) !important;
+    border: none !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1) !important;
+    flex-shrink: 0 !important;
+}
+.toggle-switch::after {
+    width: 28px !important;
+    height: 28px !important;
+    top: 2px !important;
+    left: 2px !important;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15), 0 3px 1px rgba(0,0,0,0.06) !important;
+}
+.toggle-switch.active {
+    background: #34c759 !important;
+}
+.toggle-switch.active::after {
+    transform: translateX(22px) !important;
+}
+
+/* 6. RESPONSIVE TWEAKS */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 30px 20px !important;
+        padding-bottom: 130px !important;
+    }
+    .grid-songs { gap: 20px !important; }
+    .settings-card { padding: 20px !important; }
+    .search-container { max-width: 100% !important; }
+}
+/* =========================================
+   UI UPGRADE V2: SIDEBAR, SONG CARD, SETTINGS
+   ========================================= */
+
+/* --- 1. SIDEBAR UPGRADES --- */
+.user-mini-profile {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    margin: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.user-mini-profile:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+.mini-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    margin-right: 12px;
+    border: 2px solid var(--primary-color, #a87add);
+}
+.mini-info { display: flex; flex-direction: column; flex: 1; }
+.mini-name { font-size: 14px; font-weight: 700; color: var(--text-primary, #fff); }
+.mini-status { font-size: 11px; color: var(--primary-color, #a87add); font-weight: 600; }
+.profile-settings-icon { color: rgba(255,255,255,0.5); font-size: 18px; transition: 0.3s; }
+.user-mini-profile:hover .profile-settings-icon { color: #fff; transform: rotate(90deg); }
+
+/* Active Pill & Hover Liquid Effect */
+.sidebar .menu a.active {
+    background: linear-gradient(135deg, var(--primary-color, #a87add), rgba(168, 122, 221, 0.6)) !important;
+    box-shadow: 0 4px 15px rgba(168, 122, 221, 0.4) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+}
+.sidebar .menu a {
+    position: relative; overflow: hidden;
+    border-radius: 12px !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+.sidebar .menu a::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 50%; width: 0; height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.4s ease; transform: translateX(-50%);
+    border-radius: 12px; z-index: -1;
+}
+.sidebar .menu a:hover::after { width: 100%; }
+
+/* --- 2. SONG CARD UPGRADES (Spotify / Arc Vibe) --- */
+.song-card {
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.27), box-shadow 0.4s ease !important;
+}
+.song-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Gradient Overlay cho ảnh */
+.song-img { position: relative; border-radius: 16px 16px 0 0 !important; overflow: hidden; }
+.song-img::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    pointer-events: none; z-index: 1;
+}
+
+/* Floating Play Button */
+.card-play-overlay {
+    width: 45px !important; height: 45px !important;
+    background: var(--primary-color, #a87add) !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4) !important;
+    bottom: 15px !important; right: 15px !important;
+    transform: translateY(20px); opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27) !important;
+    z-index: 2;
+}
+.song-card:hover .card-play-overlay { transform: translateY(0); opacity: 1; }
+
+/* Metadata nhỏ và tinh tế hơn */
+.song-card h4 {
+    font-size: 14px !important; font-weight: 700 !important;
+    margin-top: 12px !important; padding: 0 12px !important;
+    letter-spacing: 0.3px;
+}
+.song-card p {
+    font-size: 12px !important; color: rgba(255, 255, 255, 0.5) !important;
+    padding: 0 12px 12px !important; margin-top: 4px !important;
+}
+
+/* --- 3. SETTINGS UPGRADES (iOS / Apple Vibe) --- */
+.settings-card, .v10-row {
+    padding: 20px !important;
+    border-radius: 20px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1) !important;
+    margin-bottom: 12px !important;
+}
+.v10-meta h4 {
+    font-size: 15px !important; font-weight: 600 !important;
+    color: var(--text-primary) !important; display: flex; align-items: center; gap: 12px;
+}
+.v10-meta span { font-size: 12px !important; color: rgba(255, 255, 255, 0.45) !important; margin-top: 4px; display: block; }
+
+/* Toggle iOS Style */
+.v10-toggle { position: relative; display: inline-block; width: 50px; height: 28px; }
+.v10-toggle input { opacity: 0; width: 0; height: 0; }
+.v10-slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1); transition: .4s;
+    border-radius: 34px; border: 1px solid rgba(255,255,255,0.1);
+}
+.v10-slider:before {
+    position: absolute; content: ""; height: 20px; width: 20px;
+    left: 3px; bottom: 3px; background-color: white; transition: .4s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+    border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.v10-toggle input:checked + .v10-slider { background-color: #34c759; border-color: #34c759; }
+.v10-toggle input:checked + .v10-slider:before { transform: translateX(22px); }
