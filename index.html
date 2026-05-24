@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="intro-screen" class="intro-screen">
+        <div class="logo-orb intro-orb"><i class='bx bx-headphone'></i></div>
+        <h1 class="logo-text intro-text">Lavendermony</h1>
+    </div>
+
+    <div class="search-dim-overlay" id="search-dim"></div>
+
     <div class="noise-overlay"></div>
     <div class="animated-background"></div>
     <div class="aurora-blob blob-1"></div>
@@ -47,14 +54,22 @@
         <main class="main-content">
             <header class="glass-header glass">
                 <div class="search-container">
-                    <div class="search-bar glass">
+                    <div class="search-bar glass animated-border">
                         <i class='bx bx-search search-icon'></i>
                         <div class="search-input-wrapper">
                             <input type="text" id="search-input" autocomplete="off">
                             <div class="search-placeholder-anim" id="search-placeholder">Khởi động AI...</div>
                         </div>
-                        <i class='bx bx-microphone voice-search-icon hide-mobile'></i>
+                        <i class='bx bx-pulse voice-search-icon hide-mobile' id="voice-pulse-icon"></i>
                         <i class='bx bx-x hidden clear-search-icon' id="clear-search-btn"></i>
+                    </div>
+                    
+                    <div class="smart-chips hidden" id="smart-chips-container">
+                        <span class="chip" onclick="triggerQuickSearch('Chill')">🌊 Chill</span>
+                        <span class="chip" onclick="triggerQuickSearch('Focus')">🎯 Focus</span>
+                        <span class="chip" onclick="triggerQuickSearch('Coding')">💻 Coding</span>
+                        <span class="chip" onclick="triggerQuickSearch('Night Drive')">🚗 Night Drive</span>
+                        <span class="chip" onclick="triggerQuickSearch('Sleep')">🌙 Sleep</span>
                     </div>
                     
                     <div class="search-suggestions glass hidden" id="search-suggestions">
@@ -75,9 +90,9 @@
 
                 <div class="header-actions">
                     <span id="global-sync-indicator" class="sync-indicator"><i class='bx bx-cloud-upload'></i> Đã đồng bộ</span>
-                    <button id="settings-btn" class="icon-btn glass" title="Cài đặt"><i class='bx bx-cog'></i></button>
-                    <button id="theme-toggle" class="icon-btn glass"><i class='bx bx-moon'></i></button>
-                    <button id="login-btn" class="login-btn glass"><i class='bx bx-user-circle'></i> <span class="hide-mobile" data-i18n="login">Đăng nhập</span></button>
+                    <button id="settings-btn" class="icon-btn glass interactive-btn" title="Cài đặt"><i class='bx bx-cog'></i></button>
+                    <button id="theme-toggle" class="icon-btn glass interactive-btn"><i class='bx bx-moon'></i></button>
+                    <button id="login-btn" class="login-btn glass interactive-btn"><i class='bx bx-user-circle'></i> <span class="hide-mobile" data-i18n="login">Đăng nhập</span></button>
                     <div id="user-profile" class="user-profile hidden">
                         <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" id="user-avatar-img">
                     </div>
@@ -86,10 +101,15 @@
 
             <section id="view-home" class="view-section active-view">
                 <div class="hero-banner glass">
+                    <div class="floating-cards-bg">
+                        <div class="float-card fc-1" style="background-image: url('https://img.youtube.com/vi/jfKfPfyJRdk/hqdefault.jpg');"></div>
+                        <div class="float-card fc-2" style="background-image: url('https://img.youtube.com/vi/5qap5aO4i9A/hqdefault.jpg');"></div>
+                        <div class="float-card fc-3" style="background-image: url('https://img.youtube.com/vi/tntOCGkgt98/hqdefault.jpg');"></div>
+                    </div>
                     <div class="hero-text">
                         <h1 data-i18n="hero_title">Âm nhạc chữa lành tâm hồn</h1>
                         <p style="margin: 12px 0 24px 0; color: var(--text-secondary); font-size: 16px;">Khám phá không gian âm nhạc dịu nhẹ với AI DJ</p>
-                        <button class="play-btn-hero glass" onclick="playTrendingHero()"><i class='bx bx-play-circle' style="font-size: 24px;"></i> <span data-i18n="listen_now">Nghe Ngay</span></button>
+                        <button class="play-btn-hero glass hero-cta-glow" onclick="playTrendingHero()"><i class='bx bx-play-circle' style="font-size: 28px;"></i> <span data-i18n="listen_now">Nghe Ngay</span></button>
                     </div>
                 </div>
 
@@ -103,11 +123,11 @@
             <section id="view-discover" class="view-section">
                 <div class="ai-generator-box glass">
                     <i class='bx bxs-magic-wand ai-sparkle'></i>
-                    <h2 style="font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">AI Smart DJ</h2>
+                    <h2 style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">AI Smart DJ</h2>
                     <p style="font-size: 15px; color: var(--text-secondary); margin-top: 8px;">Mô tả không gian của bạn (VD: Lái xe đêm mưa), AI sẽ thiết kế playlist.</p>
                     <div class="ai-input-group">
                         <input type="text" id="ai-mood-input" class="ai-input glass" placeholder="Tâm trạng của bạn lúc này...">
-                        <button class="ai-btn glass" id="ai-generate-btn"><i class='bx bx-brain'></i> <span class="hide-mobile">Tạo Playlist</span></button>
+                        <button class="ai-btn glass interactive-btn" id="ai-generate-btn"><i class='bx bx-brain'></i> <span class="hide-mobile">Tạo Playlist</span></button>
                     </div>
                 </div>
 
@@ -125,10 +145,19 @@
         </main>
     </div>
 
+    <aside id="queue-drawer" class="queue-drawer glass hidden-queue">
+        <div class="queue-header">
+            <h3>Danh sách phát</h3>
+            <button class="icon-btn" onclick="toggleQueue()"><i class='bx bx-x'></i></button>
+        </div>
+        <div class="queue-list" id="queue-list-container">
+            </div>
+    </aside>
+
     <div id="lyrics-screen" class="lyrics-screen hidden-lyrics">
         <div class="lyrics-background" id="lyrics-bg"></div>
         <div class="lyrics-header">
-            <button id="close-lyrics" class="icon-btn glass"><i class='bx bx-chevron-down' style="font-size: 32px;"></i></button>
+            <button id="close-lyrics" class="icon-btn glass interactive-btn"><i class='bx bx-chevron-down' style="font-size: 32px;"></i></button>
         </div>
         <div class="lyrics-content" id="lyrics-scroll-container">
             <div id="lyrics-text">
@@ -138,6 +167,7 @@
     </div>
 
     <footer class="music-player glass">
+        <div class="player-dynamic-bg" id="player-dynamic-bg"></div>
         <canvas class="player-visualizer-canvas" id="player-visualizer"></canvas>
 
         <div class="song-info">
@@ -146,16 +176,16 @@
                 <h4 id="player-title" data-i18n="no_song">Chưa có bài hát</h4>
                 <p id="player-artist">Lavendermony</p>
             </div>
-            <button class="icon-btn like-btn hide-mobile" id="like-btn" onclick="toggleLikeCurrentTrack()"><i class='bx bx-heart' style="font-size: 24px;"></i></button>
+            <button class="icon-btn like-btn hide-mobile interactive-btn" id="like-btn" onclick="toggleLikeCurrentTrack()"><i class='bx bx-heart' style="font-size: 24px;"></i></button>
         </div>
 
         <div class="player-controls">
             <div class="control-buttons">
-                <button class="icon-btn hide-mobile" id="shuffle-toggle-btn" onclick="toggleShuffle()"><i class='bx bx-shuffle'></i></button>
-                <button class="icon-btn" onclick="playPrevTrack()"><i class='bx bx-skip-previous-circle' style="font-size: 28px;"></i></button>
-                <button class="play-pause-btn glass" id="play-pause-btn"><i class='bx bx-play'></i></button>
-                <button class="icon-btn" onclick="playNextTrack()"><i class='bx bx-skip-next-circle' style="font-size: 28px;"></i></button>
-                <button class="icon-btn hide-mobile" id="repeat-toggle-btn" onclick="toggleRepeat()"><i class='bx bx-repeat'></i></button>
+                <button class="icon-btn hide-mobile interactive-btn" id="shuffle-toggle-btn" onclick="toggleShuffle()"><i class='bx bx-shuffle'></i></button>
+                <button class="icon-btn interactive-btn" onclick="playPrevTrack()"><i class='bx bx-skip-previous-circle' style="font-size: 28px;"></i></button>
+                <button class="play-pause-btn glass interactive-btn" id="play-pause-btn"><i class='bx bx-play'></i></button>
+                <button class="icon-btn interactive-btn" onclick="playNextTrack()"><i class='bx bx-skip-next-circle' style="font-size: 28px;"></i></button>
+                <button class="icon-btn hide-mobile interactive-btn" id="repeat-toggle-btn" onclick="toggleRepeat()"><i class='bx bx-repeat'></i></button>
             </div>
             <div class="progress-container">
                 <span class="time current hide-mobile">0:00</span>
@@ -165,7 +195,11 @@
         </div>
 
         <div class="extra-controls hide-mobile">
-            <button class="icon-btn" id="lyrics-toggle-btn"><i class='bx bx-microphone'></i></button>
+            <div class="mini-waveform" id="mini-waveform">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <button class="icon-btn interactive-btn" onclick="toggleQueue()"><i class='bx bx-list-ul'></i></button>
+            <button class="icon-btn interactive-btn" id="lyrics-toggle-btn"><i class='bx bx-microphone'></i></button>
             <div class="volume-control">
                 <i class='bx bx-volume-full' id="volume-icon-status"></i>
                 <div class="volume-bar" id="player-volume-bar-wrap"><div class="volume-level" id="volume-level-bar"></div></div>
@@ -183,7 +217,7 @@
                 </div>
             </div>
             <div class="auth-forms">
-                <span class="close-btn modal-close glass" onclick="toggleAuthModal(false)">&times;</span>
+                <span class="close-btn modal-close glass interactive-btn" onclick="toggleAuthModal(false)">&times;</span>
                 <div class="auth-tabs">
                     <button class="auth-tab-link active-tab" id="tab-login-btn" onclick="switchAuthTab('login')">Đăng nhập</button>
                     <button class="auth-tab-link" id="tab-register-btn" onclick="switchAuthTab('register')">Đăng ký</button>
@@ -199,14 +233,14 @@
                         <label><i class='bx bx-lock-alt'></i> Mật khẩu</label>
                     </div>
                     <div style="text-align: right; margin-bottom: 15px;"><a href="#" style="color:var(--primary-color); font-size:13px; text-decoration:none;">Quên mật khẩu?</a></div>
-                    <button type="submit" class="submit-btn glass">Tiếp tục</button>
+                    <button type="submit" class="submit-btn glass interactive-btn">Tiếp tục</button>
                     
                     <div class="social-login">
                         <p>Hoặc tiếp tục với</p>
                         <div class="social-btns">
-                            <button type="button" class="social-btn glass"><i class='bx bxl-google'></i></button>
-                            <button type="button" class="social-btn glass"><i class='bx bxl-apple'></i></button>
-                            <button type="button" class="social-btn glass"><i class='bx bxl-github'></i></button>
+                            <button type="button" class="social-btn glass interactive-btn"><i class='bx bxl-google'></i></button>
+                            <button type="button" class="social-btn glass interactive-btn"><i class='bx bxl-apple'></i></button>
+                            <button type="button" class="social-btn glass interactive-btn"><i class='bx bxl-github'></i></button>
                         </div>
                     </div>
                 </form>
@@ -224,7 +258,7 @@
                         <input type="password" id="reg-password" required placeholder=" ">
                         <label><i class='bx bx-lock-alt'></i> Mật khẩu</label>
                     </div>
-                    <button type="submit" class="submit-btn glass">Tạo tài khoản</button>
+                    <button type="submit" class="submit-btn glass interactive-btn">Tạo tài khoản</button>
                 </form>
             </div>
         </div>
@@ -232,7 +266,7 @@
 
     <div id="settings-modal" class="modal">
         <div class="modal-content settings-layout-premium glass">
-            <span class="close-btn modal-close glass" onclick="toggleSettingsModal(false)">&times;</span>
+            <span class="close-btn modal-close glass interactive-btn" onclick="toggleSettingsModal(false)">&times;</span>
             <aside class="settings-sidebar hide-mobile">
                 <h3>Cài đặt</h3>
                 <div class="settings-menu-item active" onclick="switchSettingsSection('general', this)"><i class='bx bx-cog'></i> <span>Chung</span></div>
@@ -244,154 +278,846 @@
             <div class="settings-body-content glass">
                 <div id="settings-sec-general" class="settings-section-block active">
                     <h2>Cài đặt chung</h2>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Ngôn ngữ giao diện</h4>
-                            <p>Thay đổi ngôn ngữ hiển thị của hệ thống</p>
+                    <div class="settings-card glass">
+                        <div class="settings-row">
+                            <div class="settings-label">
+                                <h4>Ngôn ngữ giao diện</h4>
+                                <p>Thay đổi ngôn ngữ hiển thị của hệ thống</p>
+                            </div>
+                            <select id="lang-selector" class="lang-select glass" onchange="changeLanguage(this.value)">
+                                <option value="vi">Tiếng Việt</option>
+                                <option value="en">English</option>
+                            </select>
                         </div>
-                        <select id="lang-selector" class="lang-select glass" onchange="changeLanguage(this.value)">
-                            <option value="vi">Tiếng Việt</option>
-                            <option value="en">English</option>
-                        </select>
-                    </div>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Tự động sao lưu (Cloud Sync)</h4>
-                            <p>Đồng bộ playlist và thư viện yêu thích</p>
+                        <div class="settings-row">
+                            <div class="settings-label">
+                                <h4>Tự động sao lưu (Cloud Sync)</h4>
+                                <p>Đồng bộ playlist và thư viện yêu thích</p>
+                            </div>
+                            <div class="toggle-switch active" id="toggle-icloud" onclick="toggleSetting('icloud', this)"></div>
                         </div>
-                        <div class="toggle-switch active" id="toggle-icloud" onclick="toggleSetting('icloud', this)"></div>
                     </div>
                 </div>
 
                 <div id="settings-sec-appearance" class="settings-section-block">
                     <h2>Tùy chỉnh giao diện</h2>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Màu chủ đạo (Accent Color)</h4>
-                            <p>Đồng bộ màu sắc điểm nhấn của ứng dụng</p>
+                    <div class="settings-card glass">
+                        <div class="settings-row">
+                            <div class="settings-label">
+                                <h4>Màu chủ đạo (Accent Color)</h4>
+                                <p>Đồng bộ màu sắc điểm nhấn của ứng dụng</p>
+                            </div>
+                            <div class="color-picker">
+                                <button class="color-btn active" style="background: #a87add;" data-color="#a87add"></button>
+                                <button class="color-btn" style="background: #ff2d55;" data-color="#ff2d55"></button>
+                                <button class="color-btn" style="background: #007aff;" data-color="#007aff"></button>
+                                <button class="color-btn" style="background: #34c759;" data-color="#34c759"></button>
+                            </div>
                         </div>
-                        <div class="color-picker">
-                            <button class="color-btn active" style="background: #a87add;" data-color="#a87add"></button>
-                            <button class="color-btn" style="background: #ff2d55;" data-color="#ff2d55"></button>
-                            <button class="color-btn" style="background: #007aff;" data-color="#007aff"></button>
-                            <button class="color-btn" style="background: #34c759;" data-color="#34c759"></button>
+                        <div class="settings-row">
+                            <div class="settings-label">
+                                <h4>Cường độ Blur nền kính</h4>
+                                <p>Điều chỉnh hiệu ứng mờ nhòe Glassmorphism</p>
+                            </div>
+                            <input type="range" class="premium-slider" min="10" max="80" value="40" id="blur-intensity-slider">
                         </div>
-                    </div>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Cường độ Blur nền kính</h4>
-                            <p>Điều chỉnh hiệu ứng mờ nhòe Glassmorphism</p>
-                        </div>
-                        <input type="range" class="premium-slider" min="10" max="80" value="40" id="blur-intensity-slider">
-                    </div>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Độ trong suốt bề mặt</h4>
-                            <p>Thay đổi opacity lớp phủ sương mờ</p>
-                        </div>
-                        <input type="range" class="premium-slider" min="10" max="90" value="35" id="glass-opacity-slider">
                     </div>
                 </div>
 
                 <div id="settings-sec-audio" class="settings-section-block">
                     <h2>Thiết lập Âm thanh</h2>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Chất lượng Streaming</h4>
-                            <p>Chất lượng nhạc tự động theo băng thông mạng</p>
+                    <div class="settings-card glass">
+                        <div class="settings-row">
+                            <div class="settings-label">
+                                <h4>Âm thanh không gian (Spatial Audio)</h4>
+                                <p>Giả lập âm thanh vòm 360 độ</p>
+                            </div>
+                            <div class="toggle-switch" id="toggle-spatial" onclick="toggleSetting('spatialAudio', this)"></div>
                         </div>
-                        <select class="lang-select glass">
-                            <option>Tự động (Khuyên dùng)</option>
-                            <option>Tiết kiệm Data (128kbps)</option>
-                            <option>Chất lượng cao (320kbps)</option>
-                        </select>
                     </div>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Âm thanh không gian (Spatial Audio)</h4>
-                            <p>Giả lập âm thanh vòm 360 độ (Cần tai nghe hỗ trợ)</p>
-                        </div>
-                        <div class="toggle-switch" id="toggle-spatial" onclick="toggleSetting('spatialAudio', this)"></div>
-                    </div>
-                    <div class="settings-row" style="display: block;">
-                        <div class="settings-label" style="margin-bottom: 15px;">
-                            <h4>Bộ chỉnh âm (Equalizer)</h4>
-                            <p>Mô phỏng tùy chỉnh băng tần âm thanh</p>
-                        </div>
-                        <div class="equalizer-mock">
-                            <div class="eq-bar"><div class="eq-fill" style="height: 40%;"></div></div>
-                            <div class="eq-bar"><div class="eq-fill" style="height: 70%;"></div></div>
-                            <div class="eq-bar"><div class="eq-fill" style="height: 90%;"></div></div>
-                            <div class="eq-bar"><div class="eq-fill" style="height: 50%;"></div></div>
-                            <div class="eq-bar"><div class="eq-fill" style="height: 80%;"></div></div>
-                            <div class="eq-bar"><div class="eq-fill" style="height: 30%;"></div></div>
+                </div>
+                
+                <div id="settings-sec-playback" class="settings-section-block">
+                    <h2>Cấu hình trình phát</h2>
+                    <div class="settings-card glass">
+                        <div class="settings-row">
+                            <div class="settings-label">
+                                <h4>Trộn nhạc mượt mà (Crossfade)</h4>
+                                <p>Làm mờ chuyển bài không ngắt quãng</p>
+                            </div>
+                            <div class="toggle-switch" id="toggle-crossfade" onclick="toggleSetting('crossfade', this)"></div>
                         </div>
                     </div>
                 </div>
 
-                <div id="settings-sec-playback" class="settings-section-block">
-                    <h2>Cấu hình trình phát</h2>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Trộn nhạc mượt mà (Crossfade)</h4>
-                            <p>Làm mờ chuyển bài không ngắt quãng</p>
-                        </div>
-                        <div class="toggle-switch" id="toggle-crossfade" onclick="toggleSetting('crossfade', this)"></div>
-                    </div>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Phong cách sóng nhạc (Visualizer)</h4>
-                            <p>Thay đổi đồ họa sóng động dưới Player</p>
-                        </div>
-                        <select class="lang-select glass" id="visualizer-style-select" onchange="localStorage.setItem('visualizerStyle', this.value)">
-                            <option value="wave">Sóng Biển Điện Tử</option>
-                            <option value="bars">Cột Sóng Cổ Điển</option>
-                            <option value="none">Tắt hiệu ứng</option>
-                        </select>
-                    </div>
-                </div>
-                
                 <div id="settings-sec-storage" class="settings-section-block">
                     <h2>Lưu trữ & Dữ liệu</h2>
-                    <div class="settings-row">
-                        <div class="settings-label">
-                            <h4>Bộ nhớ đệm (Cache)</h4>
-                            <p>142 MB đang sử dụng (Ảnh bìa, Lịch sử, Tùy chọn)</p>
+                    <div class="settings-card glass">
+                        <div class="settings-row">
+                            <div class="settings-label">
+                                <h4>Bộ nhớ đệm (Cache)</h4>
+                                <p>142 MB đang sử dụng (Ảnh bìa, Lịch sử, Tùy chọn)</p>
+                            </div>
+                            <button class="submit-btn glass interactive-btn" style="width: auto; padding: 10px 20px; font-size: 14px; margin: 0;" onclick="clearAppCache()">Xóa Cache</button>
                         </div>
-                        <button class="submit-btn glass" style="width: auto; padding: 10px 20px; font-size: 14px; margin: 0;" onclick="clearAppCache()">Xóa Cache</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+	<div id="fullscreen-player-overlay" class="fullscreen-player visualizer-cinematic-mode">
+    <div class="fullscreen-background-mesh"></div>
+    <div class="fullscreen-ambient-glow" id="fs-ambient-glow"></div>
+    
+    <button class="fs-close-btn glass interactive-btn" onclick="toggleFullscreenPlayer(false)">
+        <i class='bx bx-chevron-down'></i>
+    </button>
+    
+    <div class="fs-content-container">
+        <div class="fs-left-panel">
+            <div class="fs-album-art-wrapper">
+                <img src="https://img.youtube.com/vi/jfKfPfyJRdk/hqdefault.jpg" id="fs-album-art" alt="Album Art">
+                <div class="fs-art-glare"></div>
+            </div>
+            <div class="fs-track-info">
+                <h1 id="fs-track-title">Tên bài hát đang phát</h1>
+                <p id="fs-track-artist">Nghệ sĩ</p>
+            </div>
+            
+            <div class="fs-waveform-container" id="fs-waveform">
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+                <div class="bar-pulse"></div>
+            </div>
+        </div>
+        
+        <div class="fs-right-panel">
+            <div class="lyrics-header">
+                <span><i class='bx bx-music'></i> LYRICS SYNC</span>
+                <span class="lyrics-ai-tag">AI Powered</span>
+            </div>
+            <div class="fs-lyrics-wrapper" id="fs-lyrics-box">
+                <div class="lyric-line dynamic-lyric" data-time="0">✨ Đang khởi tạo lời dịch trực tiếp...</div>
+                <div class="lyric-line dynamic-lyric" data-time="5">Giai điệu lofi nhẹ nhàng ôm lấy không gian</div>
+                <div class="lyric-line dynamic-lyric" data-time="12">Từng nốt nhạc trôi qua như dòng suy nghĩ</div>
+                <div class="lyric-line dynamic-lyric" data-time="20">Giữ tâm trí luôn tập trung và bình yên</div>
+                <div class="lyric-line dynamic-lyric" data-time="28">Lavendermony đồng hành cùng trải nghiệm của bạn</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="premium-system-logger" style="position: fixed; bottom: 100px; left: 20px; z-index: 9999; pointer-events: none; display: flex; flex-direction: column; gap: 8px;">
+    </div>
+
+<template id="playlist-dynamic-cover-template">
+    <div class="dynamic-cover-grid" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; width: 100%; height: 100%; border-radius: inherit; overflow: hidden;">
+        <div style="background-size: cover; background-position: center; border-right: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1);"></div>
+        <div style="background-size: cover; background-position: center; border-bottom: 1px solid rgba(255,255,255,0.1);"></div>
+        <div style="background-size: cover; background-position: center; border-right: 1px solid rgba(255,255,255,0.1);"></div>
+        <div style="background-size: cover; background-position: center;"></div>
+    </div>
+</template>
+
+<style>
+    /* Hoạt ảnh mượt mà cho các thông báo log */
+    .mini-log-entry {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 600;
+        border-left: 2px solid var(--primary-color);
+        animation: slideInLeft 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards, fadeOut 0.3s ease 3s forwards;
+    }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
+</style>
+<template id="patch-home-playlists">
+    <div class="section-title" style="margin-top: 40px; animation: fadeUp 0.6s ease forwards;">
+        <span>🔥 Top Xu Hướng & Playlists Nổi Bật</span>
+    </div>
+    <div class="top-playlists-container">
+        <div class="bento-playlist-card" style="background: linear-gradient(135deg, #ff2d55, #ff9500);">
+            <h3>Top 50 Lofi 2026</h3>
+            <p>Giai điệu được nghe nhiều nhất năm</p>
+            <i class='bx bx-headphone'></i>
+        </div>
+        <div class="bento-playlist-card" style="background: linear-gradient(135deg, #007aff, #34c759);">
+            <h3>Nhạc Kooding Thâu Đêm</h3>
+            <p>Tối đa Focus & Flow</p>
+            <i class='bx bx-code-alt'></i>
+        </div>
+        <div class="bento-playlist-card" style="background: linear-gradient(135deg, #a87add, #5856d6);">
+            <h3>V-Pop Indie Tình Yêu</h3>
+            <p>Góc nhỏ Chill & Vibes</p>
+            <i class='bx bxs-heart'></i>
+        </div>
+    </div>
+</template>
+
+<template id="patch-extra-settings">
+    <div class="settings-card glass bento-card" style="margin-top: 15px; animation: fadeUp 0.5s ease forwards;">
+        <div class="settings-row">
+            <div class="settings-label">
+                <h4>🎧 Chất lượng âm thanh (Hi-Res)</h4>
+                <p>Tự động điều chỉnh băng thông Lossless</p>
+            </div>
+            <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="settings-row">
+            <div class="settings-label">
+                <h4>🌙 Hẹn giờ tắt nhạc thông minh</h4>
+                <p>Tự động dừng nhạc khi bạn chìm vào giấc ngủ</p>
+            </div>
+            <select class="glass lang-select" style="width: 110px;">
+                <option>Tắt</option>
+                <option>15 phút</option>
+                <option>30 phút</option>
+                <option>60 phút</option>
+            </select>
+        </div>
+    </div>
+</template>
+<template id="v3-offline-view-template">
+    <section id="view-offline" class="view-section">
+        <div class="hero-banner glass" style="background: linear-gradient(135deg, #34c759 0%, #115c2a 100%); min-height: 200px; display: flex; align-items: center; padding: 40px;">
+            <div style="flex: 1;">
+                <h1 style="font-size: 36px; font-weight: 900; color: #fff; margin-bottom: 10px; text-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: floatSync 4s infinite alternate;">Tủ Nhạc Offline</h1>
+                <p style="color: rgba(255,255,255,0.9); font-size: 15px; font-weight: 500;">Lưu trữ cục bộ. Nghe nhạc mọi lúc mọi nơi không cần Internet.</p>
+                <div style="margin-top: 20px;">
+                    <button class="play-btn-hero glass hero-cta-glow" onclick="playOfflineAll()"><i class='bx bx-play-circle'></i> Phát tất cả</button>
+                </div>
+            </div>
+            <i class='bx bx-cloud-download' style="font-size: 120px; color: rgba(255,255,255,0.2); transform: rotate(-10deg);"></i>
+        </div>
+        <div class="section-title" style="margin-top: 30px;">
+            <span><i class='bx bx-folder-open' style="color: #34c759; margin-right: 8px;"></i> Đã tải xuống (<span id="offline-count">0</span>)</span>
+            <button class="glass interactive-btn" onclick="clearOfflineData()" style="padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(255,59,48,0.5); color: #ff3b30; background: transparent; cursor: pointer; font-weight: 600; font-size: 13px;"><i class='bx bx-trash'></i> Dọn dẹp</button>
+        </div>
+        <div class="grid-songs" id="offline-songs-grid">
+            <p style="color: var(--text-secondary); width: 100%; grid-column: 1/-1;">Chưa có bài hát nào được tải xuống. Hãy bấm biểu tượng tải về ở thẻ bài hát nhé!</p>
+        </div>
+    </section>
+</template>
+
+<div id="v3-ai-master-dashboard" class="modal">
+    <div class="modal-content glass" style="max-width: 600px; width: 95%; padding: 0; overflow: hidden; border: 2px solid var(--primary-color);">
+        <div style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); padding: 30px; text-align: center; position: relative; overflow: hidden;">
+            <div class="ai-core-hologram">
+                <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+                <i class='bx bx-brain' style="font-size: 50px; color: #fff; position: relative; z-index: 2;"></i>
+            </div>
+            <h2 style="color: #fff; font-weight: 900; margin-top: 15px; font-size: 24px; position: relative; z-index: 2;">LAVENDERMONY AI NEURAL CORE</h2>
+            <p style="color: #a87add; font-weight: 600; position: relative; z-index: 2;">Powered by Nhóm 8 Architecture</p>
+        </div>
+        <div style="padding: 30px;">
+            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 14px; line-height: 1.6;">Khởi tạo thuật toán phân tích Deep Learning để tùy chỉnh không gian nghe nhạc dựa trên sóng não và sở thích thời gian thực.</p>
+            
+            <div class="settings-row" style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                <div class="settings-label">
+                    <h4 style="font-size: 15px;"><i class='bx bx-pulse' style="color: var(--primary-color);"></i> AI Smart EQ Mastering</h4>
+                    <p style="font-size: 12px;">Tự động tinh chỉnh Bass/Treble theo bài hát</p>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active'); showToast('Đang hiệu chỉnh AI EQ...')"></div>
+            </div>
+            
+            <div class="settings-row" style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 12px; margin-bottom: 25px;">
+                <div class="settings-label">
+                    <h4 style="font-size: 15px;"><i class='bx bx-radar' style="color: #ff2d55;"></i> Dự đoán tâm trạng (Predictive Mood)</h4>
+                    <p style="font-size: 12px;">Pre-load bài hát trước khi bạn kịp nghĩ tới</p>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active'); showToast('Dự đoán tâm trạng đã thay đổi')"></div>
+            </div>
+
+            <button class="submit-btn glass interactive-btn" onclick="document.getElementById('v3-ai-master-dashboard').classList.remove('show-modal'); toggleAiDjDrawer(true);" style="background: var(--purple-glow-gradient);">Mở Giao Diện Tương Tác DJ</button>
+            <button class="close-btn" onclick="document.getElementById('v3-ai-master-dashboard').classList.remove('show-modal')" style="background: transparent; top: 10px; right: 10px; color: #fff;"><i class='bx bx-x'></i></button>
+        </div>
+    </div>
+</div>
+<template id="v4-home-expansion">
+    <div class="section-title" style="margin-top: 50px; opacity: 0; animation: fadeUp 0.6s ease 0.3s forwards;">
+        <span>🌟 Nghệ Sĩ Đang Lên & Trạm Podcast</span>
+    </div>
+    <div class="v4-bento-grid">
+        <div class="v4-bento-item v4-artist-card glass interactive-btn">
+            <div class="v4-artist-avatar" style="background-image: url('https://i.pravatar.cc/300?img=47');"></div>
+            <div class="v4-info">
+                <h4>Vũ.</h4>
+                <p>Indie Pop / Acoustic</p>
+            </div>
+            <button class="icon-btn" style="margin-left: auto; color: var(--primary-color);"><i class='bx bx-user-plus'></i></button>
+        </div>
+        <div class="v4-bento-item v4-podcast-card interactive-btn" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+            <div class="v4-info" style="color: #333;">
+                <h4 style="color: #111;">🎙️ Healing Podcast</h4>
+                <p style="color: #555; font-weight: 600;">Chữa lành tâm hồn 2026</p>
+            </div>
+            <i class='bx bx-microphone' style="font-size: 40px; color: rgba(0,0,0,0.1); position: absolute; right: 15px; bottom: -5px;"></i>
+        </div>
+    </div>
+</template>
+
+<template id="v4-settings-expansion">
+    <div class="settings-card glass v4-extra-settings" style="margin-top: 15px; animation: fadeUp 0.5s ease forwards;">
+        <div class="settings-row">
+            <div class="settings-label">
+                <h4>🎛️ Equalizer (EQ) Chuyên Sâu</h4>
+                <p>Tùy chỉnh băng tần dải âm AI mượt mà</p>
+            </div>
+            <button class="submit-btn glass interactive-btn" style="width: auto; padding: 8px 16px; margin: 0; font-size: 13px;" onclick="showToast('Đang mở bảng điều khiển EQ AI...')">Cấu hình</button>
+        </div>
+        <div class="settings-row">
+            <div class="settings-label">
+                <h4>📳 Phản hồi xúc giác (Haptics)</h4>
+                <p>Rung nhẹ khi chạm nút trên màn hình cảm ứng</p>
+            </div>
+            <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+    </div>
+</template>
+
+<div id="v4-ai-deepscan" class="v4-ai-overlay hidden">
+    <div class="v4-scanner-line"></div>
+    <div class="v4-ai-core-visual">
+        <i class='bx bx-brain'></i>
+    </div>
+    <div class="v4-ai-text-typing">ĐANG KẾT NỐI LUỒNG NƠ-RON AI...</div>
+</div>
+<style>
+    /* Tiêm ánh sáng hắt từ trên xuống cho modal cài đặt */
+    #settings-modal .modal-content::before {
+        content: '';
+        position: absolute;
+        top: -20%; left: 0%;
+        width: 100%; height: 60%;
+        background: radial-gradient(ellipse at 50% 0%, rgba(168, 122, 221, 0.15), transparent 70%);
+        pointer-events: none;
+        z-index: -1;
+    }
+    
+    body.dark-mode #settings-modal .modal-content::before {
+        background: radial-gradient(ellipse at 50% 0%, rgba(168, 122, 221, 0.25), transparent 70%);
+    }
+</style>
+<div class="settings-body-content">
+    <div class="settings-group-general">
+        <div class="settings-card">...</div>
+        <div class="settings-card">...</div>
+    </div>
+	<div id="v7-premium-sidebar-active" style="display: none;" aria-hidden="true"></div>
+	<div id="v9-perfect-triple-isolation-active" style="display: none;" aria-hidden="true"></div>
+	<div id="v10-ultra-feature-active" style="display: none;" aria-hidden="true"></div>
+	<div id="v11-global-expansion-active" style="display: none;" aria-hidden="true"></div>
+	<div id="v12-cartoon-physics-active" style="display: none;" aria-hidden="true"></div>
+<div id="particle-container" style="position: fixed; inset: 0; pointer-events: none; z-index: 99999;"></div>
+<div id="lavendermony-v13-extensions" style="display: none;">
+    <div class="v13-tabs-source">
+        <div class="settings-menu-item" onclick="switchSettingsSection('ai-agent', this)">
+            <i class='bx bx-brain-circuit'></i> <span data-i18n="tab_ai">AI Agent Pro</span>
+        </div>
+        <div class="settings-menu-item" onclick="switchSettingsSection('audio-eq', this)">
+            <i class='bx bx-tune'></i> <span data-i18n="tab_eq">Bộ cân bằng EQ</span>
+        </div>
+        <div class="settings-menu-item" onclick="switchSettingsSection('automation', this)">
+            <i class='bx bx-timer'></i> <span data-i18n="tab_automation">Hẹn giờ & Tự động</span>
+        </div>
+        <div class="settings-menu-item" onclick="switchSettingsSection('localization', this)">
+            <i class='bx bx-globe'></i> <span data-i18n="tab_lang">Ngôn ngữ quốc tế</span>
+        </div>
+        <div class="settings-menu-item" onclick="switchSettingsSection('backup-sync', this)">
+            <i class='bx bx-data'></i> <span data-i18n="tab_backup">Sao lưu & Đồng bộ</span>
+        </div>
+    </div>
+
+    <div class="v13-sections-source">
+        <div id="settings-sec-ai-agent" class="settings-section-block">
+            <h2 data-i18n="title_ai">Siêu trí tuệ AI Trợ lý DJ</h2>
+            
+            <div class="settings-card glass v13-premium-card">
+                <div class="settings-row-vertical">
+                    <div class="settings-label">
+                        <h4 data-i18n="ai_radar_title">🧠 AI Mood Radar (Quét tâm trạng sinh học)</h4>
+                        <p data-i18n="ai_radar_desc">Sử dụng thuật toán AI phân tích tần số giọng nói hoặc hành vi để đề xuất tần số âm thanh thích ứng.</p>
+                    </div>
+                    <div class="v13-radar-container">
+                        <div class="v13-radar-sweep"></div>
+                        <div class="v13-radar-core"><i class='bx bx-pulse'></i></div>
+                        <span id="v13-radar-status" class="v13-status-text">Hệ thống sẵn sàng...</span>
+                    </div>
+                    <button class="v13-action-btn glass interactive-btn" onclick="v13TriggerMoodRadar()">
+                        <i class='bx bx-scan'></i> <span data-i18n="ai_radar_btn">Bắt đầu quét tâm trạng AI</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="settings-card glass">
+                <div class="settings-row">
+                    <div class="settings-label">
+                        <h4 data-i18n="ai_voice_title">🎙️ Trợ lý ảo dẫn chương trình (AI Voice Host)</h4>
+                        <p data-i18n="ai_voice_desc">Chọn giọng nói dẫn dắt, bình luận âm nhạc của AI DJ giữa các bài hát.</p>
+                    </div>
+                    <select id="v13-ai-voice-select" class="lang-select glass" onchange="v13ChangeAIVoice(this.value)">
+                        <option value="lily">Lily (Ngọt ngào, Chữa lành)</option>
+                        <option value="alex">Alex (Trầm ấm, Radio Classic)</option>
+                        <option value="sophia">Sophia (Tri thức, Sâu lắng)</option>
+                    </select>
+                </div>
+                <div class="v13-voice-preview-bubble hidden" id="v13-voice-bubble">
+                    <span class="v13-pulse-dot"></span>
+                    <p id="v13-voice-text"></p>
+                </div>
+            </div>
+
+            <div class="settings-card glass">
+                <div class="settings-row-vertical">
+                    <div class="settings-label">
+                        <h4>🎨 AI Visual Prompt Singer (Chuyển ý nhạc thành họa)</h4>
+                        <p>Nhập bối cảnh tâm trạng, AI sẽ đồng bộ hóa màu sắc, hiệu ứng hạt và luồng sáng nền theo thời gian thực.</p>
+                    </div>
+                    <div class="floating-input-group style-v13">
+                        <input type="text" id="v13-ai-prompt-input" placeholder="Ví dụ: Hoàng hôn tím trên biển mờ sương, lá rụng mùa thu...">
+                        <button class="v13-mini-btn glass" onclick="v13ApplyVisualPrompt()"><i class='bx bx-paint'></i> Đồng bộ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-sec-audio-eq" class="settings-section-block">
+            <h2 data-i18n="title_eq">Bộ cân bằng âm thanh Graphic Equalizer (10-Band)</h2>
+            <div class="settings-card glass v13-premium-card">
+                <div class="settings-row">
+                    <div class="settings-label">
+                        <h4 data-i18n="eq_preset_title">🎛️ Chế độ âm thanh mẫu (EQ Presets)</h4>
+                        <p data-i18n="eq_preset_desc">Tối ưu hóa dải tần cho từng dòng nhạc chữa lành.</p>
+                    </div>
+                    <select id="v13-eq-preset" class="lang-select glass" onchange="v13ApplyEQPreset(this.value)">
+                        <option value="flat">Mặc định (Flat)</option>
+                        <option value="lofi">Lofi Soft (Ấm áp / Mờ nhòe)</option>
+                        <option value="bass">Healing Bass (Siêu trầm sâu lắng)</option>
+                        <option value="vocal">Clear Vocal (Tập trung rõ giọng ca sĩ)</option>
+                        <option value="acoustic">Acoustic Ambient (Không gian vũ trụ mở rộng)</option>
+                    </select>
+                </div>
+                
+                <div class="v13-eq-sliders-container">
+                    <div class="v13-eq-slider-wrapper"><span>+12dB</span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="32Hz"><span>32Hz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span></span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="64Hz"><span>64Hz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span></span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="125Hz"><span>125Hz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span>0dB</span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="250Hz"><span>250Hz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span></span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="500Hz"><span>500Hz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span></span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="1kHz"><span>1kHz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span></span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="2kHz"><span>2kHz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span></span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="4kHz"><span>4kHz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span></span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="8kHz"><span>8kHz</span></div>
+                    <div class="v13-eq-slider-wrapper"><span>-12dB</span><input type="range" min="-12" max="12" value="0" class="v13-eq-range" data-band="16kHz"><span>16kHz</span></div>
+                </div>
+            </div>
+
+            <div class="settings-card glass">
+                <div class="settings-row">
+                    <div class="settings-label">
+                        <h4>🎵 Định dạng chất lượng âm thanh Streaming</h4>
+                        <p>Điều chỉnh tần số lấy mẫu tín hiệu cao cấp</p>
+                    </div>
+                    <select class="lang-select glass" onchange="showToast('Đã áp dụng định dạng High Fidelity Master!')">
+                        <option>Master Hi-Res Audio (24-bit/96kHz - FLAC)</option>
+                        <option selected>Premium High Fidelity (320kbps - MP3)</option>
+                        <option>Standard Balanced (192kbps)</option>
+                        <option>Data Saver (64kbps)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-sec-automation" class="settings-section-block">
+            <h2 data-i18n="title_automation">Hẹn giờ tắt nhạc & Tự động hóa</h2>
+            <div class="settings-card glass">
+                <div class="settings-row-vertical">
+                    <div class="settings-label">
+                        <h4 data-i18n="timer_title">🌙 Hẹn giờ tắt ứng dụng (Sleep Timer)</h4>
+                        <p data-i18n="timer_desc">Tự động dừng phát nhạc mượt mà sau khi bạn chìm vào giấc ngủ.</p>
+                    </div>
+                    <div class="v13-timer-controls">
+                        <div class="v13-timer-slider-row">
+                            <input type="range" id="v13-sleep-slider" min="0" max="120" step="5" value="0" oninput="v13UpdateTimerLabel(this.value)">
+                            <span id="v13-timer-label" class="v13-badge">Tắt</span>
+                        </div>
+                        <div class="v13-timer-chips">
+                            <span class="chip" onclick="v13SetSleepTimer(15)">15m</span>
+                            <span class="chip" onclick="v13SetSleepTimer(30)">30m</span>
+                            <span class="chip" onclick="v13SetSleepTimer(45)">45m</span>
+                            <span class="chip" onclick="v13SetSleepTimer(60)">60m</span>
+                            <span class="chip" onclick="v13SetSleepTimer(90)">90m</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">
+                        <h4>📉 Giảm âm lượng mượt mà (Smart Volume Fadeout)</h4>
+                        <p>Âm lượng tự động nhỏ dần đều trong 60 giây cuối trước khi tắt hẳn để tránh làm bạn thức giấc.</p>
+                    </div>
+                    <div class="toggle-switch active" onclick="this.classList.toggle('active'); showToast('Đã kích hoạt chế độ lịm tiếng mượt!');"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-sec-localization" class="settings-section-block">
+            <h2>Cài đặt ngôn ngữ quốc tế</h2>
+            <div class="settings-card glass">
+                <div class="settings-row-vertical">
+                    <div class="settings-label">
+                        <h4>🌍 Chọn vùng quốc gia hiển thị hệ thống</h4>
+                        <p>Hệ thống tự động dịch thuật toàn diện giao diện, lời bài hát, trợ lý AI thông minh.</p>
+                    </div>
+                    <div class="v13-lang-grid">
+                        <div class="v13-lang-card" onclick="changeLanguage('vi')">🇻🇳 Tiếng Việt <span>Hoạt động</span></div>
+                        <div class="v13-lang-card" onclick="changeLanguage('en')">🇺🇸 English <span>Active</span></div>
+                        <div class="v13-lang-card" onclick="changeLanguage('ja')">🇯🇵 日本語 <span>有効</span></div>
+                        <div class="v13-lang-card" onclick="changeLanguage('ko')">🇰🇷 한국어 <span>활성</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-sec-backup-sync" class="settings-section-block">
+            <h2>Sao lưu dữ liệu & Quản lý Thư viện</h2>
+            <div class="settings-card glass">
+                <div class="settings-row">
+                    <div class="settings-label">
+                        <h4>📥 Xuất dữ liệu Playlist cá nhân (Export JSON)</h4>
+                        <p>Tải xuống tập tin chứa danh sách bài hát yêu thích và tất cả các playlist của bạn.</p>
+                    </div>
+                    <button class="submit-btn glass interactive-btn style-v13-btn" onclick="v13ExportData()"><i class='bx bx-download'></i> Tải tệp JSON</button>
+                </div>
+                <div class="settings-row">
+                    <div class="settings-label">
+                        <h4>📤 Nhập tệp sao lưu Playlist (Import JSON)</h4>
+                        <p>Khôi phục và sáp nhập lại toàn bộ thư viện nhạc từ file sao lưu JSON của bạn.</p>
+                    </div>
+                    <label class="submit-btn glass interactive-btn style-v13-btn" style="text-align:center; cursor:pointer;">
+                        <i class='bx bx-upload'></i> Chọn tệp khôi phục
+                        <input type="file" id="v13-import-file" style="display:none;" onchange="v13ImportData(event)">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="v13-ai-chat-widget" id="v13-chat-widget">
+    <div class="v13-chat-trigger" id="v13-chat-toggle" onclick="v13ToggleChatPanel()">
+        <i class='bx bxs-bot v13-brain-pulse'></i>
+        <span class="v13-chat-badge">AI DJ</span>
+    </div>
+    
+    <div class="v13-chat-panel glass hidden" id="v13-chat-panel">
+        <div class="v13-chat-header">
+            <div class="v13-chat-user-info">
+                <div class="v13-chat-avatar"><i class='bx bx-ghost'></i></div>
+                <div>
+                    <h4>Lavendermony AI Agent</h4>
+                    <p class="v13-online-dot"><span></span> Trực tuyến & Sẵn sàng</p>
+                </div>
+            </div>
+            <button class="v13-chat-close-btn" onclick="v13ToggleChatPanel()"><i class='bx bx-minus'></i></button>
+        </div>
+        <div class="v13-chat-messages" id="v13-chat-messages-container">
+            <div class="v13-message ai">
+                Chào bạn! Mình là AI Trợ lý âm nhạc thông minh của Lavendermony. Hãy nói tâm trạng hiện tại (VD: "mình stress quá", "cần nhạc tập trung học", "bật nhạc lofi buồn") hoặc yêu cầu đổi màu giao diện hệ thống nhé! ✨
+            </div>
+        </div>
+        <div class="v13-chat-footer">
+            <input type="text" id="v13-chat-input" placeholder="Yêu cầu AI DJ làm gì đó..." onkeypress="v13HandleChatKeypress(event)">
+            <button onclick="v13SendChatMessage()"><i class='bx bx-send'></i></button>
+        </div>
+    </div>
+</div>
+/* ======================================================================= */
+<template id="v14-premium-settings-segments">
+    <div class="settings-card glass" style="grid-column: 1/-1; margin-bottom: 24px;">
+        <div class="settings-row" style="border: none; padding-bottom: 0;">
+            <div class="settings-label">
+                <h4 style="font-size: 18px; color: var(--primary-color);">Giao diện & Cảm quan (Theme & Density)</h4>
+                <p>Tối ưu hóa hình ảnh chuẩn màn hình Retina.</p>
+            </div>
+        </div>
+        <div class="settings-row">
+            <div class="settings-label">
+                <h4>Hiệu ứng chiều sâu 3D (Depth Effect)</h4>
+                <p>Kích hoạt đổ bóng đa tầng cho Song Card</p>
+            </div>
+            <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+        </div>
+        <div class="settings-row">
+            <div class="settings-label">
+                <h4>Mật độ lưới (Density Layout)</h4>
+                <p>Tăng kích thước ảnh bìa Album</p>
+            </div>
+            <select class="glass lang-select" style="min-width: 140px; font-size: 14px;">
+                <option>Rộng rãi (Spacious)</option>
+                <option selected>Tiêu chuẩn (Default)</option>
+                <option>Thu gọn (Compact)</option>
+            </select>
+        </div>
+    </div>
+</template>
+
+<script>
+    // Tự động chèn V14 UI Segments vào phần Cài đặt Giao diện
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const appearanceSection = document.getElementById('settings-sec-appearance');
+            const v14Template = document.getElementById('v14-premium-settings-segments');
+            if (appearanceSection && v14Template) {
+                // Chèn lên ngay đầu phần Giao Diện
+                appearanceSection.insertBefore(v14Template.content.cloneNode(true), appearanceSection.firstChild);
+            }
+        }, 2500);
+    });
+</script>
+<script>
+    // Logic hiển thị gợi ý khi focus vào ô tìm kiếm
+    document.getElementById('search-input').addEventListener('focus', () => {
+        document.getElementById('search-suggestions').classList.remove('hidden');
+        document.getElementById('search-suggestions').classList.add('active');
+        document.getElementById('smart-chips-container').classList.remove('hidden');
+    });
+
+    document.getElementById('search-input').addEventListener('blur', () => {
+        setTimeout(() => {
+            document.getElementById('search-suggestions').classList.add('hidden');
+            document.getElementById('smart-chips-container').classList.add('hidden');
+        }, 200);
+    });
+</script>
+
+<template id="v6-settings-templates">
+    <div id="settings-sec-performance" class="settings-section-block">
+        <h2>Hiệu suất & GPU</h2>
+        <div class="settings-card glass" style="grid-column: 1/-1;">
+            <div class="settings-row">
+                <div class="settings-label">
+                    <h4>🚀 Chế độ kết xuất (Graphics Mode)</h4>
+                    <p>Giảm tải GPU nếu máy tính/điện thoại bị nóng</p>
+                </div>
+                <select class="glass lang-select" onchange="applyMotionLevel(this.value); showToast('Đã đổi cấu hình hiệu năng')">
+                    <option value="cinematic">Cinematic (Max Quality)</option>
+                    <option value="medium">Balanced (Cân bằng)</option>
+                    <option value="low">Battery Saver (Tắt hiệu ứng)</option>
+                </select>
+            </div>
+        </div>
+        <div class="settings-card glass">
+            <div class="settings-row">
+                <div class="settings-label">
+                    <h4>✨ Hạt bụi mờ (Particles Level)</h4>
+                    <p>Giả lập bụi lơ lửng trong không khí</p>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-sec-ai" class="settings-section-block">
+        <h2>Cấu hình AI Neural</h2>
+        <div class="settings-card glass">
+            <div class="settings-row">
+                <div class="settings-label">
+                    <h4>🧠 Nhận diện Mood tự động</h4>
+                    <p>Phân tích thói quen để Pre-load nhạc</p>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+        </div>
+        <div class="settings-card glass">
+            <div class="settings-row">
+                <div class="settings-label">
+                    <h4>🎛️ Mức độ tự do của AI</h4>
+                    <p>Khám phá nhạc mới vs Vùng an toàn</p>
+                </div>
+                <select class="glass lang-select" style="max-width: 130px;">
+                    <option>Sáng tạo (Mới)</option>
+                    <option selected>Cân bằng</option>
+                    <option>Bảo thủ (Cũ)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-sec-accessibility" class="settings-section-block">
+        <h2>Trợ năng (Accessibility)</h2>
+        <div class="settings-card glass">
+            <div class="settings-row">
+                <div class="settings-label">
+                    <h4>👁️ Độ tương phản cao</h4>
+                    <p>Làm rõ viền và chữ cho dễ đọc</p>
+                </div>
+                <div class="toggle-switch" onclick="toggleHighContrast(this)"></div>
+            </div>
+        </div>
+        <div class="settings-card glass">
+            <div class="settings-row">
+                <div class="settings-label">
+                    <h4>🔠 Chữ lớn (Large Text)</h4>
+                    <p>Phóng to toàn bộ giao diện 110%</p>
+                </div>
+                <div class="toggle-switch" onclick="toggleLargeText(this)"></div>
+            </div>
+        </div>
+        <div class="settings-card glass">
+            <div class="settings-row">
+                <div class="settings-label">
+                    <h4>🛑 Giảm chuyển động (Reduce Motion)</h4>
+                    <p>Tắt hoạt ảnh nảy (bounce) & 3D</p>
+                </div>
+                <div class="toggle-switch" onclick="applyMotionLevel('low'); this.classList.toggle('active')"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-sec-advanced" class="settings-section-block">
+        <h2>Cài đặt chuyên sâu</h2>
+        <div class="settings-card glass v6-advanced-card" style="grid-column: 1/-1;">
+            <div class="settings-row" style="flex-direction: column; align-items: flex-start; width: 100%; border: none;">
+                <div class="settings-label" style="margin-bottom: 20px;">
+                    <h4>📦 Quản lý Cấu hình (Import/Export)</h4>
+                    <p>Chia sẻ vibe thiết lập của bạn hoặc sao lưu toàn bộ thông số AI, Màu sắc, Giao diện dưới dạng mã hóa.</p>
+                </div>
+                <div style="display: flex; gap: 15px; width: 100%; flex-wrap: wrap;">
+                    <button class="submit-btn glass interactive-btn" style="flex: 1; margin:0; background: var(--purple-glow-gradient); display:flex; gap:8px; justify-content:center; align-items:center;" onclick="exportSettingsConfig()"><i class='bx bx-export'></i> Xuất Code</button>
+                    <button class="submit-btn glass interactive-btn" style="flex: 1; margin:0; background: rgba(0,122,255,0.8); display:flex; gap:8px; justify-content:center; align-items:center;" onclick="importSettingsConfig()"><i class='bx bx-import'></i> Nhập Code</button>
+                    <button class="submit-btn glass interactive-btn" style="flex: 1; margin:0; background: rgba(255,59,48,0.8); display:flex; gap:8px; justify-content:center; align-items:center;" onclick="resetSettingsConfig()"><i class='bx bx-refresh'></i> Đặt lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="v6-appearance-upgrades">
+    <div class="settings-card glass" style="grid-column: 1/-1;">
+        <div class="settings-row" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <div class="settings-label" style="margin-bottom: 25px; display: flex; justify-content: space-between; width: 100%;">
+                <div>
+                    <h4>🔮 Cường độ phát sáng (Ambient Glow)</h4>
+                    <p style="color: var(--primary-color); font-weight: 700;">Live Preview - Kéo để cảm nhận</p>
+                </div>
+            </div>
+            <input type="range" class="premium-slider v6-elastic-slider" min="0.1" max="0.9" step="0.05" value="0.35" id="v6-glow-slider">
+        </div>
+    </div>
+    <div class="settings-card glass" style="grid-column: 1/-1;">
+        <div class="settings-row" style="flex-direction: column; align-items: flex-start; width: 100%;">
+            <div class="settings-label" style="margin-bottom: 25px; display: flex; justify-content: space-between; width: 100%;">
+                <div>
+                    <h4>🌫️ Glass Blur (Độ nhòe mặt kính)</h4>
+                    <p style="color: var(--primary-color); font-weight: 700;">Live Preview - Kéo để cảm nhận</p>
+                </div>
+            </div>
+            <input type="range" class="premium-slider v6-elastic-slider" min="0" max="100" step="5" value="40" id="v6-blur-slider">
+        </div>
+    </div>
+</template>
+
+<div id="ai-dj-drawer-panel" class="ai-dj-drawer glass">
+    <div class="ai-drawer-header">
+        <div class="ai-avatar">
+            <i class='bx bx-ghost'></i>
+            <span class="online-indicator"></span>
+        </div>
+        <div>
+            <h4>AI DJ Personal Assistant</h4>
+            <p>Trợ lý âm nhạc thông minh</p>
+        </div>
+        <button class="close-drawer-btn" onclick="toggleAiDjDrawer(false)"><i class='bx bx-x'></i></button>
+    </div>
+    
+    <div class="ai-chat-body" id="ai-chat-container">
+        <div class="ai-message assistant">
+            <p>Xin chào! Mình là AI DJ của Lavendermony. Hôm nay bạn muốn tạo vibe âm nhạc như thế nào?</p>
+        </div>
+    </div>
+    
+    <div class="ai-chat-footer">
+        <div class="ai-input-group">
+            <input type="text" id="ai-dj-input" placeholder="Phối nhạc theo tâm trạng của bạn..." onkeypress="handleAiDjChatKeyPress(event)">
+            <button class="ai-send-btn" onclick="submitAiDjRequest()"><i class='bx bx-paper-plane'></i></button>
+        </div>
+        <div class="ai-quick-tags">
+            <span onclick="quickAiCommand('Phối bản nhạc code năng suất cao')">💻 Coding Meta</span>
+            <span onclick="quickAiCommand('Nhạc lofi mưa buồn chill')">🌧️ Rainy Mood</span>
+            <span onclick="quickAiCommand('Tạo playlist học bài tập trung')">🎯 Focus Day</span>
+        </div>
+    </div>
+</div>
+
+<button id="floating-ai-dj-btn" class="ai-floating-trigger interactive-btn" onclick="toggleAiDjDrawer(true)" title="Trò chuyện với AI DJ">
+    <i class='bx bx-bot'></i>
+    <span class="pulse-ring"></span>
+</button>
+
+<div id="lavender-onboarding-overlay" class="onboarding-overlay glass hidden">
+    <div class="onboarding-card glass">
+        <h2>Chào mừng đến với Lavendermony 🔮</h2>
+        <p>Cá nhân hóa trải nghiệm không gian Liquid Glass của riêng bạn chỉ trong một bước.</p>
+        
+        <div class="genre-selector-grid">
+            <div class="genre-chip interactive-btn" onclick="toggleOnboardingGenre(this)">Lofi Chill</div>
+            <div class="genre-chip interactive-btn" onclick="toggleOnboardingGenre(this)">V-Pop Hot Trend</div>
+            <div class="genre-chip interactive-btn" onclick="toggleOnboardingGenre(this)">Synthwave Retro</div>
+            <div class="genre-chip interactive-btn" onclick="toggleOnboardingGenre(this)">Deep Focus Jazz</div>
+            <div class="genre-chip interactive-btn" onclick="toggleOnboardingGenre(this)">Acoustic Indie</div>
+        </div>
+        
+        <button class="onboarding-submit-btn glass interactive-btn" onclick="completeOnboarding()">Bắt đầu không gian trải nghiệm</button>
+    </div>
+</div>
+
+<div class="mobile-bottom-dock glass">
+    <a href="#" class="dock-item active" onclick="switchView('home', this); updateDockActive(this);"><i class='bx bx-home-alt'></i><span>Trang chủ</span></a>
+    <a href="#" class="dock-item" onclick="switchView('discover', this); updateDockActive(this);"><i class='bx bx-compass'></i><span>Khám phá</span></a>
+    <a href="#" class="dock-item" onclick="toggleAiDjDrawer(true)"><i class='bx bx-bot'></i><span>AI DJ</span></a>
+    <a href="#" class="dock-item" onclick="switchView('library', this); updateDockActive(this);"><i class='bx bx-library'></i><span>Thư viện</span></a>
+    <a href="#" class="dock-item" onclick="toggleSettingsModal(true)"><i class='bx bx-cog'></i><span>Cài đặt</span></a>
+</div>
+
+<div id="pro-settings-injection-marker" class="hidden"></div>
 
     <div id="profile-modal" class="modal">
         <div class="modal-content glass" style="text-align: center; max-width: 350px; width: 90%; padding: 30px;">
-            <span class="close-btn modal-close glass" onclick="toggleProfileModal(false)">&times;</span>
+            <span class="close-btn modal-close glass interactive-btn" onclick="toggleProfileModal(false)">&times;</span>
             <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" style="width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary-color); margin-bottom: 15px; box-shadow: 0 5px 15px var(--ambient-glow);">
-            <h2 id="display-user-name" style="font-weight: 700;">Người Dùng</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 25px;" id="display-user-email">user@email.com</p>
-            <button class="submit-btn glass" id="logout-btn" style="background: rgba(239, 68, 68, 0.8);"><i class='bx bx-log-out'></i> Đăng xuất</button>
+            <h2 id="display-user-name" style="font-weight: 800;">Huỳnh Nguyên Đạt</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 25px;" id="display-user-email">Nhóm 4.2 | user@email.com</p>
+            <button class="submit-btn glass interactive-btn" id="logout-btn" style="background: rgba(239, 68, 68, 0.8);"><i class='bx bx-log-out'></i> Đăng xuất</button>
         </div>
     </div>
 
     <div id="create-playlist-modal" class="modal">
         <div class="modal-content glass" style="max-width: 400px; width: 90%; padding: 30px;">
-            <span class="close-btn modal-close glass" onclick="toggleCreatePlaylistModal(false)">&times;</span>
+            <span class="close-btn modal-close glass interactive-btn" onclick="toggleCreatePlaylistModal(false)">&times;</span>
             <div id="modal-mode-picker" class="hidden">
-                <h3 style="margin-bottom: 15px;" data-i18n="add_to_playlist">Thêm vào Playlist</h3>
+                <h3 style="margin-bottom: 15px; font-weight: 800;" data-i18n="add_to_playlist">Thêm vào Playlist</h3>
                 <div class="modal-playlists-list" id="modal-playlists-picker-list"></div>
                 <div style="border-top:1px solid var(--surface-border); margin-top:15px; padding-top:15px;">
-                    <button class="add-playlist glass" onclick="switchPlaylistModalToCreate()"><i class='bx bx-plus'></i> Tạo Playlist Mới</button>
+                    <button class="add-playlist glass interactive-btn" onclick="switchPlaylistModalToCreate()"><i class='bx bx-plus'></i> Tạo Playlist Mới</button>
                 </div>
             </div>
             <div id="modal-mode-create">
-                <h3 style="margin-bottom: 20px;">Tạo Playlist</h3>
+                <h3 style="margin-bottom: 20px; font-weight: 800;">Tạo Playlist</h3>
                 <div class="floating-input-group">
                     <input type="text" id="new-playlist-name" required placeholder=" ">
                     <label><i class='bx bx-list-plus'></i> Tên playlist mới...</label>
                 </div>
-                <button id="confirm-create-playlist" class="submit-btn glass">Xác nhận</button>
+                <button id="confirm-create-playlist" class="submit-btn glass interactive-btn">Xác nhận</button>
             </div>
         </div>
     </div>
